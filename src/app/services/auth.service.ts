@@ -1,7 +1,7 @@
 
 
 import { Injectable } from '@angular/core';
-import { LoginInfo, MandatoryPass, PidOrMail, RecPassObj, Session, SubmitTwoFa } from '../interfaces/interfaces';
+import { LoginInfo, MandatoryPass, PidOrMail, RecPassObj, SessionData, SubmitTwoFa } from '../interfaces/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs';
 
@@ -10,7 +10,7 @@ interface AuthResult { data: { user?: any, uuid?: string, resendDeley?: number, 
   providedIn: 'root'
 })
 export class AuthService {
-  session: Session | undefined;
+  session: SessionData | undefined;
   
   constructor(private _http: HttpClient,) { }
 
@@ -19,7 +19,7 @@ export class AuthService {
    submit(submitCode: SubmitTwoFa) {
     return this._http.post<{ result: AuthResult }>("/api/session/submit", { data: submitCode }).pipe((map((res: { result: AuthResult }) => {
       if (res?.result?.data?.user) {
-        this.session = res?.result?.data as Session;
+        this.session = res?.result?.data as SessionData;
       }
       return res?.result;
     })))
@@ -28,7 +28,7 @@ export class AuthService {
    retrieveSession() {
     return this._http.get<any>("/api/session").pipe((map((res: { result: AuthResult }) => {
       if (res?.result?.data?.user) {
-        this.session = res?.result?.data as Session;
+        this.session = res?.result?.data as SessionData;
       }
       return res?.result;
     })))
