@@ -12,7 +12,7 @@ export const routes: Routes = [
       children: [
         {
           path: '',
-          redirectTo: 'dashboard',
+          redirectTo: 'auth',
           pathMatch: 'full',
         },
         {
@@ -23,6 +23,11 @@ export const routes: Routes = [
         {
           path: 'auth',
           children:[
+            {
+              path: '',
+              redirectTo: 'signIn',
+              pathMatch: 'full',
+            },
             {
                 path:'signIn',
                 component:SignInComponent
