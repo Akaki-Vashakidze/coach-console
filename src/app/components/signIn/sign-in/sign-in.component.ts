@@ -8,9 +8,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from '../../../services/auth.service';
 import { SignInService } from '../../../services/sign-in.service';
 import { UserType } from '../../../enums/enums';
-import { UserState } from '../../../store/user/user.state';
-import { Store } from '@ngrx/store';
-import { login } from '../../../store/user/user.actions';
 import { Router } from '@angular/router';
 
 @Component({
@@ -23,7 +20,7 @@ import { Router } from '@angular/router';
 export class SignInComponent {
   signInForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService,private store: Store<{ user: UserState }>) {
+  constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
     this.signInForm = this.fb.group({
       pidOrEmail: ['', [Validators.required, Validators.minLength(3)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -36,7 +33,6 @@ export class SignInComponent {
       console.log('Submitted:', { username, password });
       this._signInService.login({...this.signInForm.value, userType:UserType.COACH}).subscribe(item => {
         console.log(item)
-        this.store.dispatch(login(item.data))
         this._router.navigate(['/dashboard'])
       })
     } else {
