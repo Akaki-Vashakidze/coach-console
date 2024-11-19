@@ -33,7 +33,11 @@ export class SignInComponent {
       console.log('Submitted:', { username, password });
       this._signInService.login({...this.signInForm.value, userType:UserType.COACH}).subscribe(item => {
         console.log(item)
-        this._router.navigate(['/dashboard'])
+        if(item?.data?.user){
+          localStorage.setItem('sessionData',JSON.stringify(item.data))
+          this._router.navigate(['/dashboard'])
+        }
+        
       })
     } else {
       console.error('Form is invalid');
