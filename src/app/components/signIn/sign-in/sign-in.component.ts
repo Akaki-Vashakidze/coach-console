@@ -5,15 +5,14 @@ import {MatCardModule} from '@angular/material/card'
 import {MatInputModule} from '@angular/material/input'
 import {MatButtonModule} from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { AuthService } from '../../../services/auth.service';
 import { SignInService } from '../../../services/sign-in.service';
 import { UserType } from '../../../enums/enums';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
@@ -29,15 +28,11 @@ export class SignInComponent {
 
   onSubmit(): void {
     if (this.signInForm.valid) {
-      const { username, password } = this.signInForm.value;
-      console.log('Submitted:', { username, password });
       this._signInService.login({...this.signInForm.value, userType:UserType.COACH}).subscribe(item => {
-        console.log(item)
         if(item?.data?.user){
           localStorage.setItem('sessionData',JSON.stringify(item.data))
           this._router.navigate(['/dashboard'])
         }
-        
       })
     } else {
       console.error('Form is invalid');
