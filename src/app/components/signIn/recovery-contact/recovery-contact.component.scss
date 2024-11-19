@@ -1,0 +1,30 @@
+.auth-card {
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  h2 {
+    text-align: center;
+  }
+  
+  mat-form-field {
+    margin: 10px;
+  }
+  
+  .actionDiv {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  button {
+    margin-bottom: 5px;
+  }

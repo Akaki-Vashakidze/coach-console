@@ -1,1 +1,33 @@
-<p>recovery-contact works!</p>
+<mat-card class="auth-card">
+    <form [formGroup]="mobileForm" (ngSubmit)="sendCode()" novalidate>
+        <h2>Send Message</h2>
+        <div>{{userContactInfo?.phone}}</div>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Enter Mobile number</mat-label>
+            <input matInput type="text" formControlName="mobileNumber" placeholder="Enter your username" />
+            <mat-error *ngIf="hasError('mobileNumber', 'required')">number is required.</mat-error>
+            <mat-error *ngIf="hasError('mobileNumber', 'minlength')">
+                Mobile number must be 9 characters long.
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">
+            send code
+        </button>
+    </form>
+    <form [formGroup]="sendCodeForm" (ngSubmit)="onSubmit()" novalidate>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Code</mat-label>
+            <input matInput type="text" formControlName="code" placeholder="Enter your username" />
+            <mat-error *ngIf="hasError('code', 'required')">Pid is required.</mat-error>
+            <mat-error *ngIf="hasError('code', 'minlength')">
+                Pid must be at least 3 characters long.
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="sendCodeForm.invalid">
+            submit code
+        </button>
+        <a routerLink="/auth/recovery1">
+            <button mat-raised-button color="primary" type="button">back</button>
+        </a>
+    </form>
+</mat-card>
