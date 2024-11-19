@@ -19,4 +19,8 @@ export class SignInService {
       return res?.result;
     }))
   }
+
+  retrieveSession() {
+    return this._http.get<any>("/consoleApi/session")
+  }
 }
