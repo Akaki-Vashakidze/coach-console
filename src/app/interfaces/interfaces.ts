@@ -25,6 +25,13 @@ export interface SubmitTwoFa {
     token: string;
     uuid: string;
   }
+
+  export interface RecPassStart {
+      pidOrEmail: string,
+      userType: string,
+      target: string,
+      targetType: string
+  }
   
   export interface PidOrMail {
     pidOrEmail: string;
@@ -40,9 +47,42 @@ export interface SubmitTwoFa {
     }
   }
   
-  export interface MandatoryPass {
-    data: {
-      password: string;
-    }
+  export interface GenericResponce<T> {
+    result:Result<T>;
   }
   
+  export interface Result<T> {
+    data:T;
+  }
+
+  export interface userInfoForPassChange {
+    contact:Contact;
+    passwordChangeRequired:boolean;
+    user:User;
+    userType:string;
+  }
+
+  export interface Contact {
+    email:string;
+    phone:string;
+    passwordChangeRequired:boolean;
+    userType:string;
+  }
+
+  export interface User {
+    birthDate:string;
+    firstName:string;
+    lastName:string;
+    pid:string;
+    userId:string;
+  }
+  
+  export interface SuccessfulPassChangeDataRes {
+    fromDate:string;
+    loggedOut:string;
+    toDate:string;
+    token:string;
+    userAgent:string;
+    userData:userInfoForPassChange;
+    _id:string;
+  }

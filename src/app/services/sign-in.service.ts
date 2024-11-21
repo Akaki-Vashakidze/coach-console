@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
-import { LoginInfo, PidOrMail, SessionData } from '../interfaces/interfaces';
+import { GenericResponce, LoginInfo, PidOrMail, RecPassStart, SessionData, SubmitTwoFa, SuccessfulPassChangeDataRes, userInfoForPassChange } from '../interfaces/interfaces';
 
 interface AuthResult { data: SessionData }
 
@@ -27,5 +27,17 @@ export class SignInService {
 
   recoverPasswordinit(info: PidOrMail) {
     return this._http.post<any>('/consoleApi/user/recovery/init', { data: info })
+  }
+
+  recoverPasswordStart(data:any){
+    return this._http.post<{uuid:string,resendDeley:number}>('/consoleApi/user/recovery/start',{data})
+  }
+
+  recoverPasswordSubmit(info:SubmitTwoFa){
+    return this._http.post<GenericResponce<userInfoForPassChange>>('/consoleApi/user/recovery/submit',{data:info})
+  }
+
+  recoverPasswordMandatoryChange(password:string) {
+    return this._http.post<GenericResponce<SuccessfulPassChangeDataRes>>('/consoleApi/user/password/mandatory/change',{data:{password}})
   }
 }

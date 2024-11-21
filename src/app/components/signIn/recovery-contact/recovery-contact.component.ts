@@ -17,37 +17,36 @@ import { SignInService } from '../../../services/sign-in.service';
   styleUrl: './recovery-contact.component.scss'
 })
 export class RecoveryContactComponent {
-  sendCodeForm: FormGroup;
   mobileForm: FormGroup;
   userContactInfo!:{email:string, phone:string} | null;
   constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
     this.userContactInfo = JSON.parse(localStorage.getItem('recoveryContactInfo') || '');
-    this.sendCodeForm = this.fb.group({
-      code: ['', [Validators.required, Validators.minLength(3)]],
-    });
     this.mobileForm = this.fb.group({
       mobileNumber: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 
-  onSubmit(): void {
-    if (this.sendCodeForm.valid) {
-      console.log(this.sendCodeForm.value)
-      // this._signInService.recoverPasswordinit({...this.sendCodeForm.value, userType:UserType.COACH}).subscribe(item => {
-      //   console.log(item)
-      // })
-    } else {
-      console.error('Form is invalid');
-    }
-  }
-
   hasError(controlName: string, error: string): boolean {
-    const control = this.sendCodeForm.get(controlName);
+    const control = this.mobileForm.get(controlName);
     return control?.hasError(error) && control?.touched || false;
   }
 
   sendCode(){
     console.log(this.mobileForm.value)
+    let pidOrEmail = localStorage.getItem('userPid')
+    let target = this.mobileForm.value.mobileNumber
+    let data = {
+      targetType: "phone",
+      userType: "coach",
+      target,
+      pidOrEmail,
+    }
+    this._signInService.recoverPasswordStart(data).subscribe(item => {
+      if(item.uuid){
+        localStorage.setItem('coachUuid',item.uuid)
+        this._router.navigate(['/auth/confirmCode'])
+      }
+    })
   }
   
 }

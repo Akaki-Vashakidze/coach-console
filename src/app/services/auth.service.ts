@@ -1,7 +1,7 @@
 
 
 import { Injectable } from '@angular/core';
-import { LoginInfo, MandatoryPass, PidOrMail, RecPassObj, SessionData, SubmitTwoFa } from '../interfaces/interfaces';
+import { GenericResponce, LoginInfo, PidOrMail, RecPassObj, SessionData, SubmitTwoFa, userInfoForPassChange } from '../interfaces/interfaces';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs';
 
@@ -16,32 +16,10 @@ export class AuthService {
 
 
 
-   submit(submitCode: SubmitTwoFa) {
-    return this._http.post<{ result: AuthResult }>("/api/session/submit", { data: submitCode }).pipe((map((res: { result: AuthResult }) => {
-      if (res?.result?.data?.user) {
-        this.session = res?.result?.data as SessionData;
-      }
-      return res?.result;
-    })))
-  }
-
-   retrieveSession() {
-    return this._http.get<any>("/api/session").pipe((map((res: { result: AuthResult }) => {
-      if (res?.result?.data?.user) {
-        this.session = res?.result?.data as SessionData;
-      }
-      return res?.result;
-    })))
-  }
-
    logout() {
    return this._http.delete<any>("/api/session", {}).pipe(tap(() => {
       localStorage.removeItem('access-token')
     }))
-  }
-
-   recoverPasswordinit(info: PidOrMail) {
-    return this._http.post('/api/user/recovery/init', { data: info })
   }
 
    recoverPasswordStart(info:RecPassObj){
@@ -52,7 +30,7 @@ export class AuthService {
     return this._http.post('/api/user/recovery/submit',{data:info})
   }
 
-   recoverPasswordMandatoryChange(info:MandatoryPass) {
-    return this._http.post('/api/user/password/mandatory/change',info)
-  }
+  //  recoverPasswordMandatoryChange(info:MandatoryPass) {
+  //   return this._http.post<GenericResponce<userInfoForPassChange>>('/api/user/password/mandatory/change',info)
+  // }
 }

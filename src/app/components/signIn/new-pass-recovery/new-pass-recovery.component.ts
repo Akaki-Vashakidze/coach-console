@@ -1,12 +1,44 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { RouterModule, Router } from '@angular/router';
+import { SignInService } from '../../../services/sign-in.service';
 
 @Component({
   selector: 'app-new-pass-recovery',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './new-pass-recovery.component.html',
   styleUrl: './new-pass-recovery.component.scss'
 })
 export class NewPassRecoveryComponent {
+  newPassForm: FormGroup;
+  constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
+    this.newPassForm = this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      password2: ['', [Validators.required, Validators.minLength(8)]],
+    });
+  }
 
+  hasError(controlName: string, error: string): boolean {
+    const control = this.newPassForm.get(controlName);
+    return control?.hasError(error) && control?.touched || false;
+  }
+
+  changePass(){
+    console.log(this.newPassForm.value)
+    let uuid = localStorage.getItem('coachUuid')
+    this._signInService.recoverPasswordMandatoryChange(this.newPassForm.value.password).subscribe(item => {
+      if(item.result.data.token) {
+        console.log(item.result.data.token)
+        localStorage.setItem('access-token', item.result.data.token);
+          this._router.navigate(['/dashboard'])
+      }
+      console.log(item)
+    })
+  }
 }

@@ -1,0 +1,18 @@
+<mat-card class="auth-card">
+    <form [formGroup]="sendCodeForm" (ngSubmit)="onSubmit()" novalidate>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Code</mat-label>
+            <input matInput type="text" formControlName="code" placeholder="Enter your username" />
+            <mat-error *ngIf="hasError('code', 'required')">Pid is required.</mat-error>
+            <mat-error *ngIf="hasError('code', 'minlength')">
+                Pid must be at least 3 characters long.
+            </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="sendCodeForm.invalid">
+            submit code
+        </button>
+        <a routerLink="/auth/recoveryId">
+            <button mat-raised-button color="primary" type="button">back</button>
+        </a>
+    </form>
+</mat-card>

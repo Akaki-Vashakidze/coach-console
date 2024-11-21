@@ -21,16 +21,16 @@ export class RecoveryUserIdComponent {
   recoverPassWithIdForm: FormGroup;
   constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
     this.recoverPassWithIdForm = this.fb.group({
-      pidOrEmail: ['', [Validators.required, Validators.minLength(3)]],
+      pidOrEmail: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
     });
   }
 
   onSubmit(): void {
     if (this.recoverPassWithIdForm.valid) {
       this._signInService.recoverPasswordinit({...this.recoverPassWithIdForm.value, userType:UserType.COACH}).subscribe(item => {
-        console.log(item)
+        localStorage.setItem('userPid',this.recoverPassWithIdForm.value.pidOrEmail)
         localStorage.setItem('recoveryContactInfo',JSON.stringify(item))
-        this._router.navigate(['/auth/recovery2'])
+        this._router.navigate(['/auth/sendCode'])
       })
     } else {
       console.error('Form is invalid');

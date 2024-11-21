@@ -21,6 +21,10 @@ mat-form-field {
 }
 
 .actionDiv {
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.actionDiv button {
+  width: 100%;
 }

@@ -17,14 +17,31 @@
   }
   
   mat-form-field {
-    margin: 10px;
+   width: 100%;
   }
   
   .actionDiv {
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .actionDiv button {
+    width: 100%;
   }
 
-  button {
-    margin-bottom: 5px;
+  .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .phoneNum {
+    padding-bottom: 10px;
+  }
+
+  .phoneNum {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }

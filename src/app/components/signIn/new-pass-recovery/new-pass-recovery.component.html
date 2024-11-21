@@ -1,1 +1,31 @@
-<p>new-pass-recovery works!</p>
+<mat-card class="auth-card">
+    <form [formGroup]="newPassForm" class="form" (ngSubmit)="changePass()" novalidate>
+        <h2>New Password</h2>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>New password</mat-label>
+            <input matInput type="text" formControlName="password" placeholder="password" />
+            <mat-error *ngIf="hasError('password', 'required')">number is required.</mat-error>
+            <mat-error *ngIf="hasError('password', 'minlength')">
+                Password must be 8 at least characters long
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Repeat Password</mat-label>
+            <input matInput type="text" formControlName="password2" placeholder="repeat" />
+            <mat-error *ngIf="hasError('password2', 'required')">number is required.</mat-error>
+            <mat-error *ngIf="hasError('password2', 'minlength')">
+                Password must be 8 at least characters long
+            </mat-error>
+        </mat-form-field>
+
+        <div class="actionDiv">
+            <a routerLink="/auth/confirmCode">
+              <button mat-raised-button color="" type="button">back</button>
+            </a>
+            <button mat-raised-button color="primary" type="submit">
+                Change password
+            </button>
+        </div>
+    </form>
+</mat-card>

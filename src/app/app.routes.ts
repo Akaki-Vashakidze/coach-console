@@ -36,15 +36,15 @@ export const routes: Routes = [
             component: SignInComponent
           },
           {
-            path: 'confirm',
+            path: 'confirmCode',
             component: SignInConfirmComponent
           },
           {
-            path: 'recovery1',
+            path: 'recoveryId',
             component: RecoveryUserIdComponent
           },
           {
-            path: 'recovery2',
+            path: 'sendCode',
             component: RecoveryContactComponent
           },
           {
