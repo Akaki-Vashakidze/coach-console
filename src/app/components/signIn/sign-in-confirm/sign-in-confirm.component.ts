@@ -34,7 +34,7 @@ export class SignInConfirmComponent {
     this._signInService.recoverPasswordSubmit({...this.tokenCodeForm.value,uuid}).subscribe(item => {
       console.log(item)
       if(item.result.data){
-        localStorage.setItem('coachData',JSON.stringify(item.result))
+        localStorage.setItem('lane4CoachSessionData',JSON.stringify(item.result.data))
         this._router.navigate(['/auth/newPass'])
       }
       console.log(item)
