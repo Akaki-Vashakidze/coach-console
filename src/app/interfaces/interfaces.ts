@@ -85,4 +85,5 @@ export interface SubmitTwoFa {
     userAgent:string;
     userData:userInfoForPassChange;
     _id:string;
+    errors?:{keyword:string}[]
   }

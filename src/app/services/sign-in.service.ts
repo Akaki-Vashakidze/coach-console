@@ -38,6 +38,6 @@ export class SignInService {
   }
 
   recoverPasswordMandatoryChange(password:string) {
-    return this._http.post<GenericResponce<SuccessfulPassChangeDataRes>>('/consoleApi/user/password/mandatory/change',{data:{password}})
+    return this._http.post<SuccessfulPassChangeDataRes>('/consoleApi/user/password/mandatory/change',{data:{password}})
   }
 }

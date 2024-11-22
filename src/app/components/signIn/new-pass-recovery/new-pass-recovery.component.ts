@@ -7,17 +7,21 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router } from '@angular/router';
 import { SignInService } from '../../../services/sign-in.service';
+import { SnackbarService } from '../../../services/snackbar.service';
+import { MatIconModule} from '@angular/material/icon'
 
 @Component({
   selector: 'app-new-pass-recovery',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
+  imports: [CommonModule,MatIconModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './new-pass-recovery.component.html',
   styleUrl: './new-pass-recovery.component.scss'
 })
 export class NewPassRecoveryComponent {
+  password1Open:boolean = false;
+  password2Open:boolean = false;
   newPassForm: FormGroup;
-  constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
+  constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService, private snackbarService:SnackbarService) {
     this.newPassForm = this.fb.group({
       password: ['', [Validators.required, Validators.minLength(8)]],
       password2: ['', [Validators.required, Validators.minLength(8)]],
@@ -30,15 +34,14 @@ export class NewPassRecoveryComponent {
   }
 
   changePass(){
-    console.log(this.newPassForm.value)
     let uuid = localStorage.getItem('coachUuid')
     this._signInService.recoverPasswordMandatoryChange(this.newPassForm.value.password).subscribe(item => {
-      if(item.result.data.token) {
-        console.log(item.result.data.token)
-        localStorage.setItem('access-token', item.result.data.token);
+      if(item?.token) {
+        console.log(item)
+        localStorage.setItem('access-token', item.token);
+        localStorage.setItem('coachData', JSON.stringify(item.userData));
           this._router.navigate(['/dashboard'])
-      }
-      console.log(item)
+      } 
     })
   }
 }

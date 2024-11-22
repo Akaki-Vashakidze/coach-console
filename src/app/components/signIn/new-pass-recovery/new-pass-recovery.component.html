@@ -3,7 +3,8 @@
         <h2>New Password</h2>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>New password</mat-label>
-            <input matInput type="text" formControlName="password" placeholder="password" />
+            <input matInput [type]="password1Open ? 'text' : 'password'" formControlName="password" placeholder="password" />
+            <mat-icon (click)="password1Open = !password1Open">remove_red_eye</mat-icon>
             <mat-error *ngIf="hasError('password', 'required')">number is required.</mat-error>
             <mat-error *ngIf="hasError('password', 'minlength')">
                 Password must be 8 at least characters long
@@ -12,7 +13,8 @@
 
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Repeat Password</mat-label>
-            <input matInput type="text" formControlName="password2" placeholder="repeat" />
+            <input matInput [type]="password2Open ? 'text' : 'password'" formControlName="password2" placeholder="repeat" />
+            <mat-icon (click)="password2Open = !password2Open">remove_red_eye</mat-icon>
             <mat-error *ngIf="hasError('password2', 'required')">number is required.</mat-error>
             <mat-error *ngIf="hasError('password2', 'minlength')">
                 Password must be 8 at least characters long
