@@ -15,7 +15,10 @@ export const coachRoutes: Route[] = [
             },
             {
                 path: 'dashboard',
-                component: DashboardComponent
+                loadChildren: () =>
+                  import('../../components/shared/dashboard/dashboard.routes').then(
+                    ({ dashRoutes }) => dashRoutes
+                  ),
             },
         ]
     }

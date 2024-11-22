@@ -29,7 +29,7 @@ export class SignInComponent {
   onSubmit(): void {
     if (this.signInForm.valid) {
       this._signInService.login({...this.signInForm.value, userType:UserType.COACH}).subscribe(item => {
-        if(item?.data?.user){
+        if(item?.data){
           localStorage.setItem('lane4CoachSessionData',JSON.stringify(item.data))
           this._router.navigate(['/coach/dashboard'])
         }

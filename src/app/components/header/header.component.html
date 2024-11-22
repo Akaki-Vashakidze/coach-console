@@ -1,8 +1,12 @@
 <div class="headerCont">
     <div class="title">{{userData ? 'Coach' : 'Please sign in'}}</div>
     <div class="info">
-        <div class="username">{{ userData ? userData.user.lastName + ' ' + userData.user.firstName : ''}}</div>
-        <div class="menu" [matMenuTriggerFor]="menu">
+        <div class="username padding5">{{ userData ? userData.user.lastName + ' ' + userData.user.firstName : ''}}</div>
+        <div class="teamsDropdownMenu padding5 gapLane" [matMenuTriggerFor]="teamsMenu">
+            <div>{{chosenTeam().title}}</div>
+            <mat-icon>keyboard_arrow_down</mat-icon>
+        </div>
+        <div class="menu gapLane padding5" [matMenuTriggerFor]="menu">
             <mat-icon>settings</mat-icon>
         </div>
     </div>
@@ -10,4 +14,8 @@
 
 <mat-menu #menu="matMenu">
     <button *ngFor="let item of menuItems" mat-menu-item (click)="onMenuItemClick(item.action)">{{item.title}}</button>
+</mat-menu>
+
+<mat-menu #teamsMenu="matMenu">
+    <button *ngFor="let team of teams()" mat-menu-item (click)="teamSwitch(team)">{{team.title}}</button>
 </mat-menu>

@@ -81,3 +81,9 @@ export interface SubmitTwoFa {
     _id:string;
     errors?:{keyword:string}[]
   }
+
+  export interface Team {
+    description:string;
+    title:string;
+    _id:string;
+  }
