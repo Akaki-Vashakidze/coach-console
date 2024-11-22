@@ -9,10 +9,13 @@ export class SessionService {
   coachSessionData!:SessionData;
 
   getSessionData(){
-    // console.log(localStorage.getItem('lane4CoachSessionData'))
     const storedData = localStorage.getItem('lane4CoachSessionData');
     this.coachSessionData = storedData ? JSON.parse(storedData) : null;
     return this.coachSessionData;
   }
 
+  deleteLocalData(){
+    localStorage.removeItem('lane4CoachSessionData')
+    localStorage.removeItem('access-token')
+  }
 }

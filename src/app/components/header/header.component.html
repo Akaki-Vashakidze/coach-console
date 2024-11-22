@@ -1,13 +1,17 @@
 <div class="headerCont">
-    <div class="title">Coach</div>
+    <div class="title">{{userData ? 'Coach' : 'Please sign in'}}</div>
     <div class="info">
-        <div class="username">{{userData.user.lastName + ' ' + userData.user.firstName}}</div>
+        <div class="username">{{ userData ? userData.user.lastName + ' ' + userData.user.firstName : ''}}</div>
+        @if (userData) {
         <div class="menu" [matMenuTriggerFor]="menu">
             <mat-icon>settings</mat-icon>
         </div>
+        } @else {
+        <div>Sign In</div>
+        }
     </div>
 </div>
 
 <mat-menu #menu="matMenu">
-  <button *ngFor="let item of menuItems" mat-menu-item (click)="onMenuItemClick(item.action)">{{item.title}}</button>
+    <button *ngFor="let item of menuItems" mat-menu-item (click)="onMenuItemClick(item.action)">{{item.title}}</button>
 </mat-menu>

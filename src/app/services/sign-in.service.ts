@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { map, tap } from 'rxjs';
 import { GenericResponce, LoginInfo, PidOrMail, RecPassStart, SessionData, SubmitTwoFa, SuccessfulPassChangeDataRes, userInfoForPassChange } from '../interfaces/interfaces';
+import { SessionService } from './session.service';
 
 interface AuthResult { data: SessionData }
 
@@ -10,6 +11,7 @@ interface AuthResult { data: SessionData }
 })
 export class SignInService {
   session: SessionData | undefined;
+  sessionService = inject(SessionService)
   constructor(private _http: HttpClient) { }
 
   login(loginInfo: LoginInfo) {
@@ -20,6 +22,12 @@ export class SignInService {
       return res?.result;
     }))
   }
+
+  logout() {
+    return this._http.delete<GenericResponce<boolean>>("/consoleApi/session", {}).pipe(tap((item) => {
+      item.result.data ? this.sessionService.deleteLocalData() : '';
+     }))
+   }
 
   retrieveSession() {
     return this._http.get<any>("/consoleApi/session")
