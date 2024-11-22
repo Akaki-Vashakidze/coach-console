@@ -40,7 +40,7 @@ export class NewPassRecoveryComponent {
         console.log(item)
         localStorage.setItem('access-token', item.token);
         localStorage.setItem('lane4CoachSessionData', JSON.stringify(item.userData));
-          this._router.navigate(['/dashboard'])
+          this._router.navigate(['/coach/dashboard'])
       } 
     })
   }

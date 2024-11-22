@@ -31,7 +31,7 @@ export class SignInComponent {
       this._signInService.login({...this.signInForm.value, userType:UserType.COACH}).subscribe(item => {
         if(item?.data?.user){
           localStorage.setItem('lane4CoachSessionData',JSON.stringify(item.data))
-          this._router.navigate(['/dashboard'])
+          this._router.navigate(['/coach/dashboard'])
         }
       })
     } else {

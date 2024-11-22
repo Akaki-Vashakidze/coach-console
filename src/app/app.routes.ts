@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { SignInComponent } from './components/signIn/sign-in/sign-in.component';
-import { SignInConfirmComponent } from './components/signIn/sign-in-confirm/sign-in-confirm.component';
+import { SignInComponent } from './features/auth/sign-in/sign-in.component';
+import { SignInConfirmComponent } from './features/auth/sign-in-confirm/sign-in-confirm.component';
 import { DashboardComponent } from './components/shared/dashboard/dashboard.component';
 import { authGuard } from './guards/auth.guard';
-import { RecoveryUserIdComponent } from './components/signIn/recovery-user-id/recovery-user-id.component';
-import { RecoveryContactComponent } from './components/signIn/recovery-contact/recovery-contact.component';
-import { NewPassRecoveryComponent } from './components/signIn/new-pass-recovery/new-pass-recovery.component';
+import { RecoveryUserIdComponent } from './features/auth/recovery-user-id/recovery-user-id.component';
+import { RecoveryContactComponent } from './features/auth/recovery-contact/recovery-contact.component';
+import { NewPassRecoveryComponent } from './features/auth/new-pass-recovery/new-pass-recovery.component';
 
 export const routes: Routes = [
   {
@@ -15,44 +15,24 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'dashboard',
+        redirectTo: 'coach',
         pathMatch: 'full',
       },
       {
-        path: 'dashboard',
+        path: 'coach',
         canActivate: [authGuard],
-        component: DashboardComponent,
+        loadChildren: () =>
+          import('./features/coach/coach.routes').then(
+            ({ coachRoutes }) => coachRoutes
+          ),
       },
       {
         path: 'auth',
-        children: [
-          {
-            path: '',
-            redirectTo: 'signIn',
-            pathMatch: 'full',
-          },
-          {
-            path: 'signIn',
-            component: SignInComponent
-          },
-          {
-            path: 'confirmCode',
-            component: SignInConfirmComponent
-          },
-          {
-            path: 'recoveryId',
-            component: RecoveryUserIdComponent
-          },
-          {
-            path: 'sendCode',
-            component: RecoveryContactComponent
-          },
-          {
-            path: 'newPass',
-            component: NewPassRecoveryComponent
-          },
-        ]
-      }
+        loadChildren: () =>
+          import('./features/auth/auth.routes').then(
+            ({ authRoutes }) => authRoutes
+          ),
+      },
     ]
   },
 ];

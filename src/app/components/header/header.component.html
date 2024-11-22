@@ -2,13 +2,9 @@
     <div class="title">{{userData ? 'Coach' : 'Please sign in'}}</div>
     <div class="info">
         <div class="username">{{ userData ? userData.user.lastName + ' ' + userData.user.firstName : ''}}</div>
-        @if (userData) {
         <div class="menu" [matMenuTriggerFor]="menu">
             <mat-icon>settings</mat-icon>
         </div>
-        } @else {
-        <div>Sign In</div>
-        }
     </div>
 </div>
 

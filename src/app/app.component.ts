@@ -6,20 +6,10 @@ import { HeaderComponent } from './components/header/header.component';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [MatButtonModule,HeaderComponent, RouterOutlet],
+  imports: [MatButtonModule,RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'coach-console';
-  menuItems = [
-    {
-      title: 'Log out',
-      action: 'log_out'
-    },
-    {
-      title: 'Personal Info',
-      action: 'Personal_Info'
-    },
-  ]
+
 }
