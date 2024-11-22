@@ -17,8 +17,8 @@ export class CoachComponent {
       action: 'log_out'
     },
     {
-      title: 'Personal Info',
-      action: 'Personal_Info'
+      title: 'Team details',
+      action: 'team_details'
     },
   ]
 }

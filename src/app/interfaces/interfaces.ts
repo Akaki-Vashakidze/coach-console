@@ -87,3 +87,17 @@ export interface SubmitTwoFa {
     title:string;
     _id:string;
   }
+
+  export interface TeamDetails {
+    description:string;
+    title:string;
+    members:TeamMembers[];
+    _id:string;
+  }
+
+  export interface TeamMembers {
+    athlete?:string;
+    coach?:string;
+    status:string;
+    memberType:string;
+  }

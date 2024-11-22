@@ -1,5 +1,5 @@
 <div class="headerCont">
-    <div class="title">{{userData ? 'Coach' : 'Please sign in'}}</div>
+    <div class="title" routerLink="/coach/dashboard">{{userData ? 'Coach' : 'Please sign in'}}</div>
     <div class="info">
         <div class="username padding5">{{ userData ? userData.user.lastName + ' ' + userData.user.firstName : ''}}</div>
         <div class="teamsDropdownMenu padding5 gapLane" [matMenuTriggerFor]="teamsMenu">

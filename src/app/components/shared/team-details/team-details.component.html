@@ -1,0 +1,4 @@
+<mat-card class="teamDetailsCont">
+    <h3>{{teamDetails()?.title}}</h3>
+        <div *ngFor="let tab of teamDetails()?.members">{{tab.memberType == 'coach' ? tab.coach ?? '' : tab.athlete ?? ''}}</div>
+</mat-card>

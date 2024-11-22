@@ -5,14 +5,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { SessionData, Team, User } from '../../interfaces/interfaces';
 import { SessionService } from '../../services/session.service';
 import { SignInService } from '../../services/sign-in.service';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { TeamService } from '../../services/team.service';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatIconModule],
+  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -35,8 +35,8 @@ export class HeaderComponent {
     case 'log_out':
       this.logout();
       break;
-    case 'profile':
-      // this.navigateToProfile();
+    case 'team_details':
+      this._router.navigate(['/coach/teamDetails'])
       break;
     default:
       console.warn('Unknown action:', action);
