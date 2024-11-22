@@ -1,0 +1,13 @@
+<div class="headerCont">
+    <div class="title">Coach</div>
+    <div class="info">
+        <div class="username">{{userData.user.lastName + ' ' + userData.user.firstName}}</div>
+        <div class="menu" [matMenuTriggerFor]="menu">
+            <mat-icon>settings</mat-icon>
+        </div>
+    </div>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button *ngFor="let item of menuItems" mat-menu-item (click)="onMenuItemClick(item.action)">{{item.title}}</button>
+</mat-menu>

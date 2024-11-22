@@ -1,0 +1,21 @@
+.menu {
+    cursor: pointer;
+}
+
+.headerCont {
+    width: 100%;
+    color: #ccc;
+    background-color: var(--dark-blue3);
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 30px;
+    align-items: center;
+    height: 67px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}

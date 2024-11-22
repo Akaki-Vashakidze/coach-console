@@ -1,13 +1,7 @@
 export interface SessionData {
     userType: string,
     passwordChangeRequired?: boolean,
-    user: {
-      userId: string,
-      pid: string,
-      firstName: string,
-      lastName: string,
-      birthDate: Date
-    },
+    user: User,
     contact: {
       email: string,
       phone: string
