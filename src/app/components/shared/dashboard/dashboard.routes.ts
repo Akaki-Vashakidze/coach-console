@@ -12,7 +12,7 @@ export const dashRoutes: Route[] = [
         children: [
             {
                 path: '',
-                redirectTo: 'teams',
+                redirectTo: 'competitions',
                 pathMatch: 'full',
             },
             {
