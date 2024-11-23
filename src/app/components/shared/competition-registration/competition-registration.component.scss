@@ -1,0 +1,21 @@
+.races {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.race {
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.regComponent {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 10px;
+    gap: 10px;
+}
+
+.athletes {
+    height: 100%;
+}

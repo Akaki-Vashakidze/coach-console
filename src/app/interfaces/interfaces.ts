@@ -143,3 +143,40 @@ export interface Athlete {
   birthDate: Date,
   gender: string,
 }
+
+export interface EventDetails {
+  event:any;
+  live:any;
+  partitions:Partition[];
+}
+
+export interface Partition {
+  _id: string,
+  event: string,
+  title: string,
+  description: string,
+  address: string,
+  startDate: Date,
+  endDate: Date,
+  startTime: Date,
+  endTime: string,
+  poolLength: string,
+  poolWidth: number,
+  races: Race[]
+}
+
+export interface Race {
+  _id: string,
+  title: string,
+  description: string,
+  event: string,
+  partition: string,
+  style: string,
+  type: string,
+  distance: number,
+  gender: string,
+  hasFinals: boolean,
+  hasSemiFinals: boolean,
+  orderNumber: number,
+  heats: any,
+}
