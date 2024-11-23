@@ -1,4 +1,22 @@
 <mat-card class="teamDetailsCont">
     <h3>{{teamDetails()?.title}}</h3>
-        <div *ngFor="let tab of teamDetails()?.members">{{tab.memberType == 'coach' ? tab.coach ?? '' : tab.athlete ?? ''}}</div>
+    <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Coaches
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p *ngFor="let coach of coaches()">{{coach.lastName + ' ' + coach.firstName}}</p>
+        </mat-expansion-panel>
+        
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Athletes
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p *ngFor="let athlete of Athletes()">{{athlete.lastName + ' ' + athlete.firstName}}</p>
+        </mat-expansion-panel>
+      </mat-accordion>
 </mat-card>

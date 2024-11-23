@@ -16,13 +16,30 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './competitions.component.scss'
 })
 export class CompetitionsComponent {
-  competitions = signal<Competition[] | null>(null)
+  competitions = signal<Competition[] | null>(null);
   constructor(private competitionService:CompetitionsService,private teamService:TeamService, private sessionService:SessionService){
     let chosenTeam = teamService.getChosenTeam()
     let teamId = chosenTeam._id
-    console.log(chosenTeam)
     competitionService.getTeamCompetitions(teamId,sessionService.userId).subscribe(item => {
       this.competitions.set(item)
     })
+  }
+
+  canRegistrate(regEndDate: Date): boolean {
+    const today = new Date();
+    const endDate = new Date(regEndDate);
+  
+    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const endDateOnly = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
+  
+    if (todayDateOnly.getTime() === endDateOnly.getTime()) {
+      return true; 
+    }
+  
+    if (todayDateOnly.getTime() > endDateOnly.getTime()) {
+      return false;
+    }
+  
+    return true;
   }
 }

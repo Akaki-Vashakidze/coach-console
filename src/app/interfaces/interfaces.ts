@@ -114,8 +114,32 @@ export interface SubmitTwoFa {
   }
 
   export interface TeamMembers {
-    athlete?:string;
-    coach?:string;
+    athlete?:Athlete;
+    coach?:Coach;
     status:string;
     memberType:string;
   }
+
+  export interface Coach {
+    _id: string,
+    pid: string,
+    lastName: string,
+    firstName: string,
+    birthDate: Date,
+    email: string,
+    phone: string,
+    userType: string,
+    status: string,
+    gender: string,
+    password: string
+}
+
+export interface Athlete {
+  _id: string,
+  sid: string,
+  pid: string,
+  lastName: string,
+  firstName: string,
+  birthDate: Date,
+  gender: string,
+}

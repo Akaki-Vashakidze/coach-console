@@ -12,7 +12,7 @@
         </div>
         <div class="actions">
             <button mat-raised-button>details</button>
-            <button [disabled]="!competition.statement.hasActiveStatement" mat-raised-button>register</button>
+            <button [disabled]="!competition.statement.hasActiveStatement && !canRegistrate(competition.registrationEndDate)" mat-raised-button>register</button>
         </div>
     </mat-card>
 </div>
