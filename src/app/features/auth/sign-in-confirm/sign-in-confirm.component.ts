@@ -17,10 +17,13 @@ import { SignInService } from '../../../services/sign-in.service';
 })
 export class SignInConfirmComponent {
   tokenCodeForm: FormGroup;
+  coachUuid!:string;
   constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
     this.tokenCodeForm = this.fb.group({
       token: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(6)]],
     });
+     this.coachUuid = this._signInService.coachUuid;
+     this.coachUuid ? '' : _router.navigate(['/auth/signIn'])
   }
 
   hasError(controlName: string, error: string): boolean {
@@ -29,15 +32,10 @@ export class SignInConfirmComponent {
   }
 
   confirmCode(){
-    console.log(this.tokenCodeForm.value)
-    let uuid = localStorage.getItem('coachUuid')
-    this._signInService.recoverPasswordSubmit({...this.tokenCodeForm.value,uuid}).subscribe(item => {
-      console.log(item)
+    this._signInService.recoverPasswordSubmit({...this.tokenCodeForm.value,uuid:this.coachUuid}).subscribe(item => {
       if(item.result.data){
-        localStorage.setItem('lane4CoachSessionData',JSON.stringify(item.result.data))
         this._router.navigate(['/auth/newPass'])
       }
-      console.log(item)
     })
   }
 }

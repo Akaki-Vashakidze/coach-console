@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TabsComponent } from '../tabs/tabs.component';
 import { Router, RouterOutlet } from '@angular/router';
 
@@ -10,8 +10,9 @@ import { Router, RouterOutlet } from '@angular/router';
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit{
   constructor(private _router:Router){}
+  tabChosenIndex!:number;
   dashboardTabs = [
     {
       title:'teams',
@@ -22,6 +23,14 @@ export class DashboardComponent {
       action:'competitions'
     },
   ]
+
+  ngOnInit() {
+    if (this._router.url.endsWith('competitions')) {
+      this.tabChosenIndex = 1
+    } else if(this._router.url.endsWith('teams')) {
+      this.tabChosenIndex = 0
+    }
+  }
 
   onTabsChange(tab:string){
     console.log(tab)

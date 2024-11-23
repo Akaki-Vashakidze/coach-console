@@ -12,7 +12,7 @@ import { SessionService } from '../../services/session.service';
 })
 export class TeamsComponent {
   constructor(private sharedService:TeamService,private sessionService:SessionService){
-    let data = sessionService.getSessionData();
+    let data = sessionService.retrieveSession();
 
   }
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Competition } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,7 @@ export class CompetitionsService {
   constructor(private _http: HttpClient) { }
 
   getTeamCompetitions(teamId:string, coachId:string){
-    console.log(teamId,coachId)
-    return this._http.get<any>(`/consoleApi/coach/${coachId}/teams/${teamId}/events`);
+    return this._http.get<Competition[]>(`/consoleApi/coach/${coachId}/teams/${teamId}/events`);
   }
 
 }

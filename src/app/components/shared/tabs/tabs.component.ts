@@ -10,6 +10,7 @@ import {MatTabsModule} from '@angular/material/tabs'
   styleUrl: './tabs.component.scss'
 })
 export class TabsComponent {
+  @Input() chosenIndex !:number;
   @Output() onChange = new EventEmitter();
   @Input() tabs!:{
     title:string;

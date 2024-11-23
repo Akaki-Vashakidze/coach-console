@@ -19,7 +19,7 @@ import { RecoveryContactComponent } from "../recovery-contact/recovery-contact.c
 })
 export class RecoveryUserIdComponent {
   recoverPassWithIdForm: FormGroup;
-  constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
+  constructor(private fb: FormBuilder, private _router: Router, private _signInService: SignInService) {
     this.recoverPassWithIdForm = this.fb.group({
       pidOrEmail: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(11)]],
     });
@@ -27,9 +27,9 @@ export class RecoveryUserIdComponent {
 
   onSubmit(): void {
     if (this.recoverPassWithIdForm.valid) {
-      this._signInService.recoverPasswordinit({...this.recoverPassWithIdForm.value, userType:UserType.COACH}).subscribe(item => {
-        localStorage.setItem('userPid',this.recoverPassWithIdForm.value.pidOrEmail)
-        localStorage.setItem('recoveryContactInfo',JSON.stringify(item))
+      this._signInService.recoverPasswordinit({ ...this.recoverPassWithIdForm.value, userType: UserType.COACH }).subscribe(item => {
+        this._signInService.setUserRecoveryUuid(this.recoverPassWithIdForm.value.pidOrEmail)
+        this._signInService.setRecoveryContactInfo(item)
         this._router.navigate(['/auth/sendCode'])
       })
     } else {
@@ -41,5 +41,5 @@ export class RecoveryUserIdComponent {
     const control = this.recoverPassWithIdForm.get(controlName);
     return control?.hasError(error) && control?.touched || false;
   }
-  
+
 }

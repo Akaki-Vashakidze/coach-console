@@ -14,6 +14,24 @@ export interface SessionData {
     userType: string;
   }
   
+  export interface Competition {
+    _id: string,
+    title: string,
+    description: string,
+    address: string,
+    startDate: Date,
+    endDate: Date,
+    type: string,
+    participantApproveType: string,
+    creator: string,
+    status: string,
+    registrationEndDate: Date,
+    registrationStartDate: Date,
+    statement: {
+        hasActiveStatement: boolean,
+        participantMaxCount: number
+    }
+}
 
 export interface SubmitTwoFa {
     token: string;

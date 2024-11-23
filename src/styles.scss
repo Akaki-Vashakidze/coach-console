@@ -27,10 +27,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     --font-Blue: #002155;
   }
 
-  app-header {
+  app-header, app-competitions {
     width: 100%;
   }
 
+  app-competitions {
+    padding: 10px;
+  }
   *, *::before, *::after {
     box-sizing: border-box;
   }
+  

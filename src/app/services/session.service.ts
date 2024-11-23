@@ -1,21 +1,33 @@
 import { Injectable } from '@angular/core';
-import { SessionData } from '../interfaces/interfaces';
+import { GenericResponce, SessionData } from '../interfaces/interfaces';
+import { HttpClient } from '@angular/common/http';
+import { map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
-  constructor() { }
+  constructor(private _http:HttpClient) { }
   coachSessionData!:SessionData;
+  userId!:string;
+  retrieveSession() {
+    return this._http.get<GenericResponce<SessionData>>("/consoleApi/session").pipe(
+      tap(item=>{
+        this.coachSessionData = item.result.data
+        this.userId = item.result.data.user.userId
+        console.log(this.coachSessionData)
+      }),
+      map(item => {
+        return item.result.data
+      })
+    )
+  }
 
-  getSessionData(){
-    const storedData = localStorage.getItem('lane4CoachSessionData');
-    this.coachSessionData = storedData ? JSON.parse(storedData) : null;
+  getSessionDataInfo(){
     return this.coachSessionData;
   }
 
   deleteLocalData(){
-    localStorage.removeItem('lane4CoachSessionData')
     localStorage.removeItem('access-token')
   }
 }

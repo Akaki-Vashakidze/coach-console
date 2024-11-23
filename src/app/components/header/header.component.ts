@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { SessionData, Team, User } from '../../interfaces/interfaces';
@@ -16,18 +16,29 @@ import { TeamService } from '../../services/team.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit{
  @Input() menuItems!:{title:string, action:string}[]
+ @Input() needUserInfo!:boolean;
  userData!:SessionData;
  teams = signal<Team[]>([{description:'',title:'',_id:''}])
- chosenTeam = signal<Team>({description:'',title:'',_id:''})
+ chosenTeam = signal<Team | null>(null)
  constructor(private sessionService:SessionService,private _router:Router, private teamService:TeamService ,private signInService:SignInService ){
-  this.userData = sessionService.getSessionData()
+  this.userData = sessionService.getSessionDataInfo();
+  console.log(this.userData)
+
+ }
+
+  ngOnInit() {
   let userId = this.userData?.user?.userId
-  teamService.getCoachTeams(userId).subscribe(teams => {
-    this.teams.set(teams)
-  })
-  this.chosenTeam.set(this.teamService.getChosenTeam())
+  console.log(this.needUserInfo)
+
+  if(this.needUserInfo) {
+    this.teamService.getCoachTeams(userId).subscribe(teams => {
+      this.teams.set(teams)
+      console.log(teams)
+      this.chosenTeam.set(this.teamService.getChosenTeam())
+    })
+  }
  }
 
  onMenuItemClick( action: string) {

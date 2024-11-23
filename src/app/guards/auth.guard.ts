@@ -6,12 +6,11 @@ import { SessionService } from '../services/session.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
-  const signInService = inject(SignInService);
   const sessionService = inject(SessionService);
 
-  return signInService.retrieveSession().pipe(
+  return sessionService.retrieveSession().pipe(
     map(item => {
-      if (item?.result?.data?.user) {
+      if (item?.user) {
         return true;
       } else {
         sessionService.deleteLocalData()

@@ -20,4 +20,8 @@ export class TeamDetailsComponent {
     })
   }
 
+  onTabChange(item:any){
+    
+  }
+
 }

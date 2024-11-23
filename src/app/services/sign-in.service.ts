@@ -12,6 +12,9 @@ interface AuthResult { data: SessionData }
 export class SignInService {
   session: SessionData | undefined;
   sessionService = inject(SessionService)
+  coachUuid!:string;
+  recoveryContactInfo!:{email:string, phone:string}
+  userRecoveryUuid!:string;
   constructor(private _http: HttpClient) { }
 
   login(loginInfo: LoginInfo) {
@@ -29,12 +32,20 @@ export class SignInService {
      }))
    }
 
-  retrieveSession() {
-    return this._http.get<any>("/consoleApi/session")
-  }
+   setUserRecoveryUuid(item:string){
+    this.userRecoveryUuid = item;
+   }
 
   recoverPasswordinit(info: PidOrMail) {
     return this._http.post<any>('/consoleApi/user/recovery/init', { data: info })
+  }
+
+  setCoachUuid(uuid:string){
+    this.coachUuid = uuid;
+  }
+
+  setRecoveryContactInfo(item:{email:string, phone:string}){
+   this.recoveryContactInfo = item;
   }
 
   recoverPasswordStart(data:any){

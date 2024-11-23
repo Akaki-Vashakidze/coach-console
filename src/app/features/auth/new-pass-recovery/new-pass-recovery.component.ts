@@ -34,12 +34,9 @@ export class NewPassRecoveryComponent {
   }
 
   changePass(){
-    let uuid = localStorage.getItem('coachUuid')
     this._signInService.recoverPasswordMandatoryChange(this.newPassForm.value.password).subscribe(item => {
       if(item?.token) {
-        console.log(item)
         localStorage.setItem('access-token', item.token);
-        localStorage.setItem('lane4CoachSessionData', JSON.stringify(item.userData));
           this._router.navigate(['/coach/dashboard'])
       } 
     })

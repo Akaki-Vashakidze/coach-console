@@ -12,6 +12,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 400) {
         snackbarService.openSnackBar(error?.error?.errors?.[0]?.keyword || 'error occured','ok')
       }
+      //401 403 throw to auth 
       return throwError(() => error);
     })
   );
