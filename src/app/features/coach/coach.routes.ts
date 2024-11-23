@@ -4,6 +4,7 @@ import { DashboardComponent } from '../../components/shared/dashboard/dashboard.
 import { CoachComponent } from './coach.component';
 import { TeamDetailsComponent } from '../../components/shared/team-details/team-details.component';
 import { CompetitionRegistrationComponent } from '../../components/shared/competition-registration/competition-registration.component';
+import { CompDetailsComponent } from '../../components/shared/comp-details/comp-details.component';
 
 export const coachRoutes: Route[] = [
     {
@@ -33,7 +34,11 @@ export const coachRoutes: Route[] = [
                     {
                         path:'registration/:id',
                         component:CompetitionRegistrationComponent
-                    }
+                    },
+                    {
+                        path:'details/:id',
+                        component:CompDetailsComponent
+                    },
                 ]
             }
         ]

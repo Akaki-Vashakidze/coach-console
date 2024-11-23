@@ -8,11 +8,13 @@ import { Competition } from '../../interfaces/interfaces';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 
 @Component({
   selector: 'app-competitions',
   standalone: true,
-  imports: [CommonModule, LoaderSpinnerComponent, RouterModule ,MatCardModule, MatButtonModule],
+  imports: [CommonModule, LoaderSpinnerComponent, RouterModule ,MatCardModule, MatButtonModule, MatTooltipModule],
   templateUrl: './competitions.component.html',
   styleUrl: './competitions.component.scss'
 })
@@ -43,5 +45,14 @@ export class CompetitionsComponent {
     }
   
     return true;
+  }
+
+  matToolTipSet(regEndDate: Date, hasActiveStatement:boolean | undefined){
+    if(!hasActiveStatement) return 'Please pay for the competition';
+   if(this.canRegistrate(regEndDate,hasActiveStatement))  {
+    return ''
+   } else {
+    return 'Competition registration deadline time is done'
+   }
   }
 }

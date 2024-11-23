@@ -11,8 +11,10 @@
             <div class="regEndDate date"><div>end:</div><div>{{competition.registrationEndDate | date: 'yyyy-MM-dd'}}</div></div>
         </div>
         <div class="actions">
-            <button mat-raised-button>details</button>
-            <button [routerLink]="'/coach/competition/registration/' + competition._id" [disabled]="!canRegistrate(competition.registrationEndDate, competition?.statement?.hasActiveStatement)" mat-raised-button>register</button>
+            <button [routerLink]="'/coach/competition/details/' + competition._id" mat-raised-button>details</button>
+            <div [matTooltip]="matToolTipSet(competition.registrationEndDate, competition?.statement?.hasActiveStatement)">
+                <button [routerLink]="'/coach/competition/registration/' + competition._id" [disabled]="!canRegistrate(competition.registrationEndDate, competition?.statement?.hasActiveStatement)" mat-raised-button>register</button>
+            </div>
         </div>
     </mat-card>
 </div>
