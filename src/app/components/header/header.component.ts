@@ -24,18 +24,14 @@ export class HeaderComponent implements OnInit{
  chosenTeam = signal<Team | null>(null)
  constructor(private sessionService:SessionService,private _router:Router, private teamService:TeamService ,private signInService:SignInService ){
   this.userData = sessionService.getSessionDataInfo();
-  console.log(this.userData)
-
  }
 
   ngOnInit() {
   let userId = this.userData?.user?.userId
-  console.log(this.needUserInfo)
 
   if(this.needUserInfo) {
     this.teamService.getCoachTeams(userId).subscribe(teams => {
       this.teams.set(teams)
-      console.log(teams)
       this.chosenTeam.set(this.teamService.getChosenTeam())
     })
   }

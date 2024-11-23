@@ -8,7 +8,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     const snackbarService = inject(SnackbarService)
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-        console.log(error)
       if (error.status === 400) {
         snackbarService.openSnackBar(error?.error?.errors?.[0]?.keyword || 'error occured','ok')
       }

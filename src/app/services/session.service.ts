@@ -15,7 +15,6 @@ export class SessionService {
       tap(item=>{
         this.coachSessionData = item.result.data
         this.userId = item.result.data.user.userId
-        console.log(this.coachSessionData)
       }),
       map(item => {
         return item.result.data

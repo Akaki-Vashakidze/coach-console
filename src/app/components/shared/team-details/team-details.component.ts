@@ -27,7 +27,6 @@ export class TeamDetailsComponent {
       })
       this.coaches.set(coaches)
       this.Athletes.set(athletes)
-      console.log(this.coaches(), this.Athletes())
     })
   }
 

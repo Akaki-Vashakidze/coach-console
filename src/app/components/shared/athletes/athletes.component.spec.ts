@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ConfirmCodeComponent } from './confirm-code.component';
+import { AthletesComponent } from './athletes.component';
 
-describe('ConfirmCodeComponent', () => {
-  let component: ConfirmCodeComponent;
-  let fixture: ComponentFixture<ConfirmCodeComponent>;
+describe('AthletesComponent', () => {
+  let component: AthletesComponent;
+  let fixture: ComponentFixture<AthletesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ConfirmCodeComponent]
+      imports: [AthletesComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(ConfirmCodeComponent);
+    fixture = TestBed.createComponent(AthletesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

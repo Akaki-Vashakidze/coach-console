@@ -37,7 +37,6 @@ export class RecoveryContactComponent {
   }
 
   sendCode(){
-    console.log(this.mobileForm.value)
     let target = this.mobileForm.value.mobileNumber
     let data = {
       targetType: "phone",

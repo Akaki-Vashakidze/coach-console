@@ -11,7 +11,6 @@ export class SnackbarService {
   constructor(private _snackBar: MatSnackBar) {}
 
   openSnackBar(message: string, action: string, type = 'success') {
-    console.log(message)
     this._snackBar.open(
       // this.translateService.instant(message)
       message

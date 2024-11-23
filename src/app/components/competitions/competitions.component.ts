@@ -7,11 +7,12 @@ import { LoaderSpinnerComponent } from '../shared/loader-spinner/loader-spinner.
 import { Competition } from '../../interfaces/interfaces';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-competitions',
   standalone: true,
-  imports: [CommonModule, LoaderSpinnerComponent, MatCardModule, MatButtonModule],
+  imports: [CommonModule, LoaderSpinnerComponent, RouterModule ,MatCardModule, MatButtonModule],
   templateUrl: './competitions.component.html',
   styleUrl: './competitions.component.scss'
 })
@@ -25,10 +26,11 @@ export class CompetitionsComponent {
     })
   }
 
-  canRegistrate(regEndDate: Date): boolean {
+  canRegistrate(regEndDate: Date, hasActiveStatement:boolean | undefined): boolean {
+    if(!hasActiveStatement) return false;
     const today = new Date();
     const endDate = new Date(regEndDate);
-  
+    
     const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     const endDateOnly = new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate());
   

@@ -15,8 +15,8 @@ export class DashboardComponent implements OnInit{
   tabChosenIndex!:number;
   dashboardTabs = [
     {
-      title:'teams',
-      action:'teams'
+      title:'athletes',
+      action:'athletes'
     },
     {
       title:'competitions',
@@ -27,16 +27,15 @@ export class DashboardComponent implements OnInit{
   ngOnInit() {
     if (this._router.url.endsWith('competitions')) {
       this.tabChosenIndex = 1
-    } else if(this._router.url.endsWith('teams')) {
+    } else if(this._router.url.endsWith('athletes')) {
       this.tabChosenIndex = 0
     }
   }
 
   onTabsChange(tab:string){
-    console.log(tab)
     switch (tab) {
-      case 'teams':
-        this._router.navigate(['coach/dashboard/teams'])
+      case 'athletes':
+        this._router.navigate(['coach/dashboard/athletes'])
         break;
       case 'competitions':
         this._router.navigate(['coach/dashboard/competitions'])
