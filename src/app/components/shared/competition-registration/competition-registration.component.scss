@@ -36,3 +36,47 @@
     align-items: center;
     padding: 15px 10px;
 }
+
+.bkOn {
+    background-color: var(--light-blue1)!important;
+}
+
+.registeredAthletesList {
+    border-bottom: 1px solid var(--light-blue1);
+    width: 100%;
+    padding: 15px 0px;
+}
+
+.add_athlete_form {
+    padding: 15px 0px;
+}
+
+.add_athlete_form ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+    display: none!important;
+}
+
+.add_athlete_form {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between input and button */
+  }
+  
+  .add_athlete_form mat-form-field {
+    flex: 1; /* Ensures the input grows to take available space */
+    margin: 0;
+  }
+  
+  .add_athlete_form button {
+    height: 56px; /* Match the default height of the mat-form-field */
+    line-height: 56px;
+    min-width: 90px; /* Optional: Adjust button width as needed */
+    font-size: 16px;
+    padding: 0 16px; /* Ensure padding matches Material Design guidelines */
+  }
+
+  @media (max-width:740px){
+    .regComponent{
+        display: flex;
+        flex-direction: column;
+    }
+  }
