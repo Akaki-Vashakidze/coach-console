@@ -1,16 +1,28 @@
 <app-loader-spinner *ngIf="!event()" color="black" height="500px"></app-loader-spinner>
 <mat-tab-group
   class="tabsCont"
+  (selectedTabChange)="onTabChange($event)"
 >
   <mat-tab *ngFor="let partition of event()?.partitions" [label]="partition.title">
     <div class="regComponent">
         <div class="races">
-            <mat-card class="race" *ngFor="let race of partition.races">{{race.title}}</mat-card>
+            <mat-card (click)="chooseRace(race)" class="race" *ngFor="let race of partition.races">{{race.title}}</mat-card>
         </div>
-        <div class="athletes">
+        <div *ngIf="partition.races.length > 0" class="athletes">
             <mat-card style="height: 100%; padding: 5px 10px;">
-                athletes should be here
+                <div class="addPartitcipantsCont"  *ngIf="!chosenRace">Please choose race</div>
+                <div class="addPartitcipantsCont" *ngIf="chosenRace">
+                  <div style="font-weight: 600;">{{chosenRace.title}}</div>
+                  <div class="addAtlete">
+                    <mat-icon>control_point</mat-icon>
+                    <div>add athlete</div>
+                  </div>
+                  
+                </div>
             </mat-card>
+        </div>
+        <div *ngIf="partition.races.length == 0">
+          there are no races yet
         </div>
     </div>
   </mat-tab>

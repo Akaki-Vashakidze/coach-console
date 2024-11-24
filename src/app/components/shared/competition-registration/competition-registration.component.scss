@@ -19,3 +19,20 @@
 .athletes {
     height: 100%;
 }
+
+.addAtlete {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: left;
+    margin: 10px 0px;
+}
+
+.addPartitcipantsCont {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 10px;
+}
