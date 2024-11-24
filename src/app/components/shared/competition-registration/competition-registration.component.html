@@ -5,25 +5,44 @@
 >
   <mat-tab *ngFor="let partition of event()?.partitions" [label]="partition.title">
     <div class="regComponent">
-        <div class="races">
-            <mat-card (click)="chooseRace(race)" class="race" *ngFor="let race of partition.races">{{race.title}}</mat-card>
-        </div>
-        <div *ngIf="partition.races.length > 0" class="athletes">
-            <mat-card style="height: 100%; padding: 5px 10px;">
-                <div class="addPartitcipantsCont"  *ngIf="!chosenRace">Please choose race</div>
-                <div class="addPartitcipantsCont" *ngIf="chosenRace">
-                  <div style="font-weight: 600;">{{chosenRace.title}}</div>
-                  <div class="addAtlete">
-                    <mat-icon>control_point</mat-icon>
-                    <div>add athlete</div>
-                  </div>
-                  
-                </div>
-            </mat-card>
-        </div>
-        <div *ngIf="partition.races.length == 0">
-          there are no races yet
-        </div>
+      <div class="races">
+        <mat-card (click)="chooseRace(race)" class="race" *ngFor="let race of partition.races">
+          {{ race.title }}
+        </mat-card>
+      </div>
+      <div *ngIf="partition.races.length > 0" class="athletes">
+        <mat-card style="height: 100%; padding: 5px 10px;">
+          <div class="addPartitcipantsCont" *ngIf="!chosenRace">Please choose a race</div>
+          <div class="addPartitcipantsCont" *ngIf="chosenRace">
+            <div style="font-weight: 600;">{{ chosenRace.title }}</div>
+            <div class="addAtlete">
+              <mat-icon>control_point</mat-icon>
+              <div>add athlete</div>
+            </div>
+            <form class="example-form">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>athlete</mat-label>
+                <input
+                  type="text"
+                  placeholder="Pick one"
+                  aria-label="Number"
+                  matInput
+                  [formControl]="myControl"
+                  [matAutocomplete]="auto"
+                />
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+            </form>
+          </div>
+        </mat-card>
+      </div>
+      <div *ngIf="partition.races.length === 0">
+        There are no races yet
+      </div>
     </div>
   </mat-tab>
 </mat-tab-group>
