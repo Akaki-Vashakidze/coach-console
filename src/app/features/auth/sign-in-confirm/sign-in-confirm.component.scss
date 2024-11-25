@@ -45,3 +45,13 @@
     grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
+
+  .auth-card {
+    width: 400px;
+  }
+  
+  @media (max-width:740px){
+    .auth-card {
+      width: 300px;
+    }
+  }

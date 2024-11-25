@@ -28,3 +28,13 @@ mat-form-field {
 .actionDiv button {
   width: 100%;
 }
+
+.auth-card {
+  width: 400px;
+}
+
+@media (max-width:740px){
+  .auth-card {
+    width: 300px;
+  }
+}

@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { LoaderSpinnerComponent } from '../loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-team-details',
   standalone: true,
-  imports: [CommonModule,MatCardModule,MatTabsModule,MatExpansionModule],
+  imports: [CommonModule,MatCardModule,MatTabsModule,MatExpansionModule,LoaderSpinnerComponent],
   templateUrl: './team-details.component.html',
   styleUrl: './team-details.component.scss'
 })

@@ -52,3 +52,13 @@
   mat-icon {
     cursor: pointer;
   }
+
+  .auth-card {
+    width: 400px;
+  }
+  
+  @media (max-width:740px){
+    .auth-card {
+      width: 300px;
+    }
+  }

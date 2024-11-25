@@ -1,4 +1,4 @@
-<mat-card class="teamDetailsCont">
+<mat-card *ngIf="teamDetails()" class="teamDetailsCont">
     <h3>{{teamDetails()?.title}}</h3>
     <mat-accordion>
         <mat-expansion-panel>
@@ -20,3 +20,5 @@
         </mat-expansion-panel>
       </mat-accordion>
 </mat-card>
+
+<app-loader-spinner *ngIf="!teamDetails()" color="black" height="500px"></app-loader-spinner>

@@ -13,4 +13,8 @@ export class CompetitionsService {
     return this._http.get<Competition[]>(`/consoleApi/coach/${coachId}/teams/${teamId}/events`);
   }
 
+  getPlannedEvents(){
+    return this._http.get<Competition[]>(`/consoleApi/event/planned`);
+  }
+
 }

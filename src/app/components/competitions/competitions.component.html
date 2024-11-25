@@ -4,11 +4,11 @@
 <div class="compContainer">
     <mat-card class="compCard" *ngFor="let competition of competitions()">
         <div class="compTitle">{{competition.title}}</div>
-        <div class="startDate date"><div>{{competition.startDate | date: 'yyyy-MM-dd'}}</div></div>
+        <div class="startDate date"><div>{{competition.startDate | date: 'dd-MM-yyy'}}</div></div>
         <div class="registration">Registration</div>
         <div class="regDates">
-            <div class="regStartDate date"><div>start:</div><div>{{competition.registrationStartDate | date: 'yyyy-MM-dd'}}</div></div>
-            <div class="regEndDate date"><div>end:</div><div>{{competition.registrationEndDate | date: 'yyyy-MM-dd'}}</div></div>
+            <div class="regStartDate date"><div>start:</div><div>{{competition.registrationStartDate | date: 'dd-MM-yyy'}}</div></div>
+            <div class="regEndDate date"><div>end:</div><div>{{competition.registrationEndDate | date: 'dd-MM-yyy'}}</div></div>
         </div>
         <div class="actions">
             <button [routerLink]="'/coach/competition/details/' + competition._id" mat-raised-button>details</button>
