@@ -8,16 +8,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SignInService } from '../../../services/sign-in.service';
 import { UserType } from '../../../enums/enums';
 import { Router, RouterModule } from '@angular/router';
+import { LoaderSpinnerComponent } from '../../../components/shared/loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, LoaderSpinnerComponent,MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './sign-in.component.html',
   styleUrl: './sign-in.component.scss'
 })
 export class SignInComponent {
   signInForm: FormGroup;
+  loader!:boolean;
 
   constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
     this.signInForm = this.fb.group({
@@ -28,8 +30,10 @@ export class SignInComponent {
 
   onSubmit(): void {
     if (this.signInForm.valid) {
+      this.loader = true;
       this._signInService.login({...this.signInForm.value, userType:UserType.COACH}).subscribe(item => {
         if(item?.data){
+          this.loader = false;
           this._router.navigate(['/coach/dashboard'])
         }
       })

@@ -8,16 +8,18 @@ import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router } from '@angular/router';
 import { UserType } from '../../../enums/enums';
 import { SignInService } from '../../../services/sign-in.service';
+import { LoaderSpinnerComponent } from '../../../components/shared/loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-recovery-contact',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
+  imports: [CommonModule, ReactiveFormsModule,LoaderSpinnerComponent, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './recovery-contact.component.html',
   styleUrl: './recovery-contact.component.scss'
 })
 export class RecoveryContactComponent {
   mobileForm: FormGroup;
+  loader!:boolean;
   coachUuid!:string;
   pidOrEmail!:string;
   userContactInfo!:{email:string, phone:string} | null;
@@ -44,9 +46,11 @@ export class RecoveryContactComponent {
       target,
       pidOrEmail:this.pidOrEmail,
     }
+    this.loader = true;
     this._signInService.recoverPasswordStart(data).subscribe(item => {
       if(item.uuid){
         this._signInService.setCoachUuid(item.uuid)
+        this.loader = false;
         this._router.navigate(['/auth/confirmCode'])
       }
     })

@@ -9,16 +9,18 @@ import { RouterModule, Router } from '@angular/router';
 import { SignInService } from '../../../services/sign-in.service';
 import { SnackbarService } from '../../../services/snackbar.service';
 import { MatIconModule} from '@angular/material/icon'
+import { LoaderSpinnerComponent } from '../../../components/shared/loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-new-pass-recovery',
   standalone: true,
-  imports: [CommonModule,MatIconModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
+  imports: [CommonModule,MatIconModule,LoaderSpinnerComponent, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './new-pass-recovery.component.html',
   styleUrl: './new-pass-recovery.component.scss'
 })
 export class NewPassRecoveryComponent {
   password1Open:boolean = false;
+  loader!:boolean;
   password2Open:boolean = false;
   newPassForm: FormGroup;
   constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService, private snackbarService:SnackbarService) {
@@ -34,9 +36,11 @@ export class NewPassRecoveryComponent {
   }
 
   changePass(){
+    this.loader = true
     this._signInService.recoverPasswordMandatoryChange(this.newPassForm.value.password).subscribe(item => {
       if(item?.token) {
         localStorage.setItem('access-token', item.token);
+        this.loader = false;
           this._router.navigate(['/coach/dashboard'])
       } 
     })

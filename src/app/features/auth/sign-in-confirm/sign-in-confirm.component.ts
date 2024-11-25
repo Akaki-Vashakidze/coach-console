@@ -7,16 +7,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule, Router } from '@angular/router';
 import { SignInService } from '../../../services/sign-in.service';
+import { LoaderSpinnerComponent } from '../../../components/shared/loader-spinner/loader-spinner.component';
 
 @Component({
   selector: 'app-sign-in-confirm',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
+  imports: [CommonModule, ReactiveFormsModule,LoaderSpinnerComponent, MatCardModule, MatInputModule, MatFormFieldModule, MatButtonModule,RouterModule],
   templateUrl: './sign-in-confirm.component.html',
   styleUrl: './sign-in-confirm.component.scss'
 })
 export class SignInConfirmComponent {
   tokenCodeForm: FormGroup;
+  loader!:boolean;
   coachUuid!:string;
   constructor(private fb: FormBuilder, private _router:Router,private _signInService:SignInService) {
     this.tokenCodeForm = this.fb.group({
@@ -32,8 +34,10 @@ export class SignInConfirmComponent {
   }
 
   confirmCode(){
+    this.loader = true;
     this._signInService.recoverPasswordSubmit({...this.tokenCodeForm.value,uuid:this.coachUuid}).subscribe(item => {
       if(item.result.data){
+        this.loader = false;
         this._router.navigate(['/auth/newPass'])
       }
     })

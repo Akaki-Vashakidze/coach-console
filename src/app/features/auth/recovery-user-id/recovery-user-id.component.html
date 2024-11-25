@@ -1,4 +1,4 @@
-<mat-card class="auth-card">
+<mat-card *ngIf="!loader" class="auth-card">
     <form [formGroup]="recoverPassWithIdForm" (ngSubmit)="onSubmit()" novalidate>
         <h2>password recovery</h2>
 
@@ -23,3 +23,5 @@
         </div>
     </form>
 </mat-card>
+
+<app-loader-spinner *ngIf="loader" color="black" height="500px"></app-loader-spinner>
