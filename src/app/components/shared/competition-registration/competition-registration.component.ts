@@ -109,6 +109,14 @@ export class CompetitionRegistrationComponent implements OnInit {
     })
   }
 
+  deleteEventParticipant(){
+    let coachId = this.sessionService.userId;
+    let teamId = this.teamService.chosenTeam._id;
+    this.competitionService.deleteEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
+      console.log(item)
+    })
+  }
+
   private _filter(value: string | null): Athlete[] | null {
     const filterValue = (value || '').toLowerCase()
     const result = this.athletes()?.filter(

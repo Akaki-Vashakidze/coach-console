@@ -22,6 +22,11 @@ export class CompetitionsService {
   }
 
   addEventPartiipant(coachId:string,teamId:string,eventId:string, participantId:string,raceId:string){
-    return this._http.post<any>(`/consoleApi/event/details/${eventId}`,{data:{race:raceId}})
+    return this._http.post<any>(`/consoleApi/coach/${coachId}/teams/${teamId}/events/${eventId}/participant/${participantId}`,{data:{race:raceId}})
+  }
+
+  deleteEventPartiipant(coachId:string,teamId:string,eventId:string, participantId:string,raceId:string){
+    // ?? todo where is raceId
+    return this._http.delete<any>(`/consoleApi/coach/${coachId}/teams/${teamId}/events/${eventId}/participant/${participantId}`)
   }
 }
