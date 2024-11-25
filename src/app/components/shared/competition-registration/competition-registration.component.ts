@@ -14,6 +14,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { TeamService } from '../../../services/team.service';
 import { MatButtonModule } from '@angular/material/button';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-competition-registration',
@@ -39,11 +40,12 @@ export class CompetitionRegistrationComponent implements OnInit {
   chosenRace: Race | null = null;
   filteredOptions = signal<Athlete[] | null | undefined>(null);
   athletes = signal<Athlete[] | null>(null);
-
+  blockADD:boolean = true;
   constructor(
     private competitionService: CompetitionsService,
     private route: ActivatedRoute,
-    private teamService: TeamService
+    private teamService: TeamService,
+    private sharedService:SharedService
   ) {
     const eventId = this.route.snapshot.paramMap.get('id') || '';
     
@@ -69,6 +71,12 @@ export class CompetitionRegistrationComponent implements OnInit {
     ).subscribe((filtered) => {
       this.filteredOptions.set(filtered);
     });
+
+    this.myControl.valueChanges.subscribe(value => {
+      console.log('Input changed to:', value);
+      // Add filtering logic or other actions
+      this.blockADD = true;
+    });
   }
   
 
@@ -82,9 +90,14 @@ export class CompetitionRegistrationComponent implements OnInit {
 
   addAthlete() {
     // todo athlete add in race
-    console.log(this.chosenRace)
-    console.log('Selected Athlete:', this.myControl.value);
 
+  }
+
+  onOptionSelected(event:any){
+    this.sharedService.getAthleteBestResult(this.chosenRace?._id || '', event.option.value._id || '').subscribe(item => {
+      console.log(item)
+      this.blockADD = false;
+    })
   }
 
   private _filter(value: string | null): Athlete[] | null {
@@ -94,7 +107,6 @@ export class CompetitionRegistrationComponent implements OnInit {
         athlete.lastName.toLowerCase().includes(filterValue) ||
         athlete.firstName.toLowerCase().includes(filterValue)
     );
-  
     return result?.length ? result : null;
   }
   

@@ -29,13 +29,13 @@
                   [formControl]="myControl"
                   [matAutocomplete]="auto"
                 />
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
                   <mat-option *ngFor="let option of filteredOptions()" [value]="option">
                     {{ option?.lastName + ' ' + option?.firstName }}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
-              <button type="button" (click)="addAthlete()" mat-raised-button>Add</button>
+              <button type="button" (click)="addAthlete()" [disabled]="blockADD" mat-raised-button>Add</button>
             </form>
           </div>
         </mat-card>

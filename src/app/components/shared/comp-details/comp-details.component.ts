@@ -1,10 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs';
 import { CompetitionsService } from '../../../services/competitions.service';
 import { EventDetails } from '../../../interfaces/interfaces';
 import { CommonModule } from '@angular/common';
-import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { LoaderSpinnerComponent } from '../loader-spinner/loader-spinner.component';
 import { LabelComponent } from '../label/label.component';
