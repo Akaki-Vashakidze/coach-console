@@ -86,6 +86,12 @@ export class CompetitionRegistrationComponent implements OnInit {
 
   chooseRace(race: Race) {
     this.chosenRace = race;
+    this.clearForm()
+  }
+
+  clearForm() {
+    this.myControl.reset(); 
+    this.blockADD = true; 
   }
 
   onTabChange(action: any) {
