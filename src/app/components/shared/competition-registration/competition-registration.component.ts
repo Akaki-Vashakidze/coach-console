@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CompetitionService } from '../../../services/competition.service';
+import { CompetitionsService } from '../../../services/competitions.service';
 import { Athlete, EventDetails, Race } from '../../../interfaces/interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -41,7 +41,7 @@ export class CompetitionRegistrationComponent implements OnInit {
   athletes = signal<Athlete[] | null>(null);
 
   constructor(
-    private competitionService: CompetitionService,
+    private competitionService: CompetitionsService,
     private route: ActivatedRoute,
     private teamService: TeamService
   ) {
@@ -82,7 +82,9 @@ export class CompetitionRegistrationComponent implements OnInit {
 
   addAthlete() {
     // todo athlete add in race
+    console.log(this.chosenRace)
     console.log('Selected Athlete:', this.myControl.value);
+
   }
 
   private _filter(value: string | null): Athlete[] | null {

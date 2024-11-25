@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Competition } from '../interfaces/interfaces';
+import { Competition, EventDetails } from '../interfaces/interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -17,4 +17,7 @@ export class CompetitionsService {
     return this._http.get<Competition[]>(`/consoleApi/event/planned`);
   }
 
+  getEventDetails(eventId:string){
+    return this._http.get<EventDetails>(`/consoleApi/event/details/${eventId}`)
+  }
 }
