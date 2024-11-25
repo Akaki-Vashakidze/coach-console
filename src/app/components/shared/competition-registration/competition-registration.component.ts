@@ -15,6 +15,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TeamService } from '../../../services/team.service';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedService } from '../../../services/shared.service';
+import { SessionService } from '../../../services/session.service';
 
 @Component({
   selector: 'app-competition-registration',
@@ -41,13 +42,16 @@ export class CompetitionRegistrationComponent implements OnInit {
   filteredOptions = signal<Athlete[] | null | undefined>(null);
   athletes = signal<Athlete[] | null>(null);
   blockADD:boolean = true;
+  eventId!:string;
+  chosenAthleteToRegister!:Athlete;
   constructor(
     private competitionService: CompetitionsService,
     private route: ActivatedRoute,
     private teamService: TeamService,
-    private sharedService:SharedService
+    private sharedService:SharedService,
+    private sessionService:SessionService
   ) {
-    const eventId = this.route.snapshot.paramMap.get('id') || '';
+     this.eventId = this.route.snapshot.paramMap.get('id') || '';
     
     teamService
       .getTeamAthletes()
@@ -58,7 +62,7 @@ export class CompetitionRegistrationComponent implements OnInit {
         this.athletes.set(athletes);
       });
 
-    competitionService.getEventDetails(eventId).subscribe((event) => {
+    competitionService.getEventDetails(this.eventId).subscribe((event) => {
       this.event.set(event);
     });
   }
@@ -89,11 +93,16 @@ export class CompetitionRegistrationComponent implements OnInit {
   }
 
   addAthlete() {
-    // todo athlete add in race
+    let coachId = this.sessionService.userId;
+    let teamId = this.teamService.chosenTeam._id;
 
+    this.competitionService.addEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
+      console.log(item)
+    })
   }
 
   onOptionSelected(event:any){
+    this.chosenAthleteToRegister = event.option.value;
     this.sharedService.getAthleteBestResult(this.chosenRace?._id || '', event.option.value._id || '').subscribe(item => {
       console.log(item)
       this.blockADD = false;

@@ -20,4 +20,8 @@ export class CompetitionsService {
   getEventDetails(eventId:string){
     return this._http.get<EventDetails>(`/consoleApi/event/details/${eventId}`)
   }
+
+  addEventPartiipant(coachId:string,teamId:string,eventId:string, participantId:string,raceId:string){
+    return this._http.post<any>(`/consoleApi/event/details/${eventId}`,{data:{race:raceId}})
+  }
 }
