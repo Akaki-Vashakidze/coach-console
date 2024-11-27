@@ -20,7 +20,7 @@ export class TeamDetailsComponent {
   Athletes = signal<Athlete[] | null>(null)
 
   constructor(private teamService:TeamService){
-    teamService.getTeamDetails().subscribe(item => {
+    teamService.getTeamDetails().subscribe((item : any) => {
       this.teamDetails.set(item)
       let coaches : any[] = [], athletes : any[] = []
       this.teamDetails()?.members.map(member => {

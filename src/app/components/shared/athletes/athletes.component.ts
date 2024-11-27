@@ -17,7 +17,11 @@ export class AthletesComponent {
   athletes = signal<TeamMembers[] | null>(null)
   constructor(private teamService:TeamService){
     teamService.getTeamAthletes().subscribe(item => {
-      this.athletes.set(item)
+      if(item){
+        this.athletes.set(item)
+      } else {
+        this.athletes.set([])
+      }
     })
   }
 }

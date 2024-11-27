@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Athlete, Team, TeamDetails, TeamMembers, User } from '../interfaces/interfaces';
-import { tap } from 'rxjs';
+import { of, tap } from 'rxjs';
 import { SessionService } from './session.service';
 
 @Injectable({
@@ -12,13 +12,16 @@ export class TeamService {
   chosenTeam!: any;
   constructor(private _http: HttpClient) {
     let chosen = localStorage.getItem('lane4ChosenTeam')
-    chosen ? this.chosenTeam = JSON.parse(chosen) : '';
+    console.log(111, chosen)
+    if(chosen) {
+      chosen ? this.chosenTeam = JSON.parse(chosen) : '';
+    }
   }
 
   getCoachTeams(id: string) {
     return this._http.get<Team[]>(`/consoleApi/coach/${id}/teams`).pipe(
       tap(item => {
-        if (!this.chosenTeam) {
+        if (!this.chosenTeam && item.length > 0) {
           localStorage.setItem('lane4ChosenTeam',JSON.stringify(item[0]))
           this.chosenTeam = item[0]
         }
@@ -27,8 +30,10 @@ export class TeamService {
   }
 
   setChosenTeam(team: Team) {
-    localStorage.setItem('lane4ChosenTeam',JSON.stringify(team))
-    this.chosenTeam = team;
+    if(team){
+      localStorage.setItem('lane4ChosenTeam',JSON.stringify(team))
+      this.chosenTeam = team;
+    }
   }
 
   getChosenTeam() {
@@ -44,6 +49,10 @@ export class TeamService {
   getTeamAthletes() {
     let teamId = this.getChosenTeam()?._id;
     let userId = this.sessionService.userId
-    return this._http.get<TeamMembers[]>(`/consoleApi/coach/${userId}/teams/${teamId}/athletes`)
+    if(teamId && userId){
+      return this._http.get<TeamMembers[]>(`/consoleApi/coach/${userId}/teams/${teamId}/athletes`)
+    } else {
+      return of([]);
+    }
   }
 }

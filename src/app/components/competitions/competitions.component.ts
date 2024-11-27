@@ -22,10 +22,15 @@ export class CompetitionsComponent {
   competitions = signal<Competition[] | null>(null);
   constructor(private competitionService:CompetitionsService,private teamService:TeamService, private sessionService:SessionService){
     let chosenTeam = teamService.getChosenTeam()
-    let teamId = chosenTeam._id
-    competitionService.getTeamCompetitions(teamId,sessionService.userId).subscribe(item => {
-      this.competitions.set(item)
-    })
+    if(chosenTeam) {
+      let teamId = chosenTeam._id
+      competitionService.getTeamCompetitions(teamId,sessionService.userId).subscribe(item => {
+        this.competitions.set(item)
+        console.log(this.competitions())
+      })
+    } else {
+      this.competitions.set([])
+    }
   }
 
   canRegistrate(regEndDate: Date, hasActiveStatement:boolean | undefined): boolean {

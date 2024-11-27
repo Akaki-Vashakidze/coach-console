@@ -106,6 +106,15 @@ export class CompetitionRegistrationComponent implements OnInit {
       console.log(item)
     })
   }
+//registered Athletes list
+//teamId
+//raceId
+
+
+
+  //fornewMethod
+  //teamId
+  //raceId
 
   onOptionSelected(event:any){
     this.chosenAthleteToRegister = event.option.value;
