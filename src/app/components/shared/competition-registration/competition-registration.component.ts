@@ -46,7 +46,11 @@ export class CompetitionRegistrationComponent implements OnInit {
   AthleteResultValue:string | null = null;
   eventId!:string;
   registerAthleteForm!:FormGroup;
+  raceRegisterAthletes = signal<any>(null)
   chosenAthleteToRegister!:TeamAthleteQualifications;
+  coachId!:string;
+  teamId!:string;
+
   constructor(
     private competitionService: CompetitionsService,
     private route: ActivatedRoute,
@@ -62,15 +66,6 @@ export class CompetitionRegistrationComponent implements OnInit {
       athleteResult: ['', [Validators.required, Validators.minLength(8),Validators.maxLength(8)]],
     });
     this.registerAthleteForm.get('athleteResult')?.disable();
-    // teamService
-    //   .getTeamAthletes()
-    //   .pipe(
-    //     map((item: any) => item.map((athleteWrapper: any) => athleteWrapper.athlete))
-    //   )
-    //   .subscribe((athletes) => {
-    //     this.athletes.set(athletes);
-    //   });
-
     competitionService.getEventDetails(this.eventId).subscribe((event) => {
       this.event.set(event);
     });
@@ -103,10 +98,14 @@ export class CompetitionRegistrationComponent implements OnInit {
       prevValue = item;
     })
     
+    this.coachId = this.sessionService.userId;
+     this.teamId = this.teamService.chosenTeam._id;
+    this.getRegisteredAthletes()
   }
   
 
   chooseRace(race: Race) {
+    this.getRegisteredAthletes()
     this.chosenRace = race;
     this.clearForm()
     this.getCoachTeamAthleteQualifications(race._id)
@@ -122,9 +121,6 @@ export class CompetitionRegistrationComponent implements OnInit {
   }
 
   addAthlete() {
-    let coachId = this.sessionService.userId;
-    let teamId = this.teamService.chosenTeam._id;
-    console.log(this.registerAthleteForm.value.athleteInfo, this.registerAthleteForm.value)
     let time;
     if(this.chosenAthleteToRegister.result) {
       time = this.chosenAthleteToRegister.result.result.time;
@@ -132,28 +128,26 @@ export class CompetitionRegistrationComponent implements OnInit {
       time = this.convertItimeService.convertStringTimeToItime(this.registerAthleteForm.value.athleteResult || '')
     }
     
-    console.log(time)
-    this.competitionService.addEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister.member.athlete._id,this.chosenRace?._id || '',time || null).subscribe(item => {
-      console.log(item)
+    this.competitionService.addEventPartiipant(this.coachId,this.teamId,this.eventId,this.chosenAthleteToRegister.member.athlete._id,this.chosenRace?._id || '',time || null).subscribe(item => {
+      if(item.athlete) {
+        this.getRegisteredAthletes()
+      }
     })
   }
-//registered Athletes list
-//teamId
-//raceId
 
+  getRegisteredAthletes(){
+    this.competitionService.getRegisteredAthletes(this.coachId,this.teamId,this.eventId,this.chosenRace?._id || '').subscribe(item => {
+      console.log(item)
+      this.raceRegisterAthletes.set(item)
+    })
+  }
 
 getCoachTeamAthleteQualifications(raceId:string){
   this.teamService.getCoachTeamAthleteQualifications(raceId).subscribe(item => {
-    console.log(item)
     this.athletes.set(item)
+    this.filteredOptions.set(item);
   })
 }
-
-
-  //fornewMethod
-  //teamId
-  //raceId
-
   onOptionSelected(event:any){
     this.chosenAthleteToRegister = event.option.value;
     console.log(this.chosenAthleteToRegister)

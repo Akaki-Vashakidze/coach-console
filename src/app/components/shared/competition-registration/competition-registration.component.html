@@ -8,7 +8,7 @@
           [ngClass]="chosenRace?._id == race._id ? 'bkOn' : ''" 
           class="race" 
           *ngFor="let race of partition.races">
-          {{ race.title }}
+          {{ race.distance + ' '}} {{ race.style }} {{race.gender}}
         </mat-card>
       </div>
       <div *ngIf="partition.races.length > 0" class="athletes">
@@ -17,7 +17,7 @@
           <div class="addPartitcipantsCont" *ngIf="chosenRace">
             <div style="font-weight: 600;">{{ chosenRace.title }}</div>
             <div class="registeredAthletesList">
-              <div>1. აკაკი ვაშაკიძე</div>
+              <div *ngFor="let athlete of raceRegisterAthletes()">{{athlete.athlete.lastName + ' ' + athlete.athlete.firstName}} {{ ' - ' + athlete.qualificationTime.minutes + ':' + athlete.qualificationTime.seconds + '.' + athlete.qualificationTime.milliseconds}}</div>
             </div>
             <form [formGroup]="registerAthleteForm" class="add_athlete_form">
               <mat-form-field class="example-full-width" appearance="outline">
