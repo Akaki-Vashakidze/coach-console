@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Athlete, Team, TeamDetails, TeamMembers, User } from '../interfaces/interfaces';
+import { Athlete, Team, TeamAthleteQualifications, TeamDetails, TeamMembers, User } from '../interfaces/interfaces';
 import { of, tap } from 'rxjs';
 import { SessionService } from './session.service';
 
@@ -44,6 +44,12 @@ export class TeamService {
     let teamId = this.getChosenTeam()?._id;
     let userId = this.sessionService.userId
     return this._http.get<TeamDetails>(`/consoleApi/coach/${userId}/teams/${teamId}`)
+  }
+
+  getCoachTeamAthleteQualifications(raceId:string) {
+    let teamId = this.getChosenTeam()?._id;
+    let userId = this.sessionService.userId
+    return this._http.get<TeamAthleteQualifications[]>(`/consoleApi/coach/${userId}/teams/${teamId}/athletes/qualifications/${raceId}`)
   }
 
   getTeamAthletes() {

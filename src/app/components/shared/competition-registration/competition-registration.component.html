@@ -31,10 +31,17 @@
                 />
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
                   <mat-option *ngFor="let option of filteredOptions()" [value]="option">
-                    {{ option?.lastName + ' ' + option?.firstName }}
+                    {{ option?.member?.athlete?.lastName + ' ' + option?.member?.athlete?.firstName }}
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
+
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>result</mat-label>
+                <input [disabled]="disableAthleteResValue" 
+                [formControl]="athleteResControl" [value]="AthleteResultValue" matInput type="text" placeholder="Result" />
+              </mat-form-field>
+
               <button type="button" (click)="addAthlete()" [disabled]="blockADD" mat-raised-button>Add</button>
             </form>
           </div>

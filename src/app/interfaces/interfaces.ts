@@ -144,6 +144,51 @@ export interface Athlete {
   gender: string,
 }
 
+export interface TeamAthleteQualifications {
+  member:{
+    athlete:Athlete,
+    memberType:string,
+    status:string
+  },
+  result?: {
+    athlete:string,
+    event:{
+      startDate:string;
+      endDate:string;
+      event:string
+    },
+    heat:{heat:string},
+    participant:{heatParticipant:string, lane:number}
+    partition:{
+      partition:string,
+      poolLength:string,
+      startDate:string,
+      startTime:string
+    },
+    race:{
+      distance:number,
+      gender:string,
+      race:string,
+      style:string,
+      type:string
+    },
+    result:{
+      time: iTime,
+      type:string
+    },
+    team:string,
+    _id:string
+  }
+}
+
+export interface iTime {
+  hours:string,
+  milliseconds:string,
+  minutes:string,
+  seconds:string,
+  totalMilliseconds:number
+}
+
 export interface EventDetails {
   event:any;
   live:any;

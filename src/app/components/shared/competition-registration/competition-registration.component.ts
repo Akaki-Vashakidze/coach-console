@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CompetitionsService } from '../../../services/competitions.service';
-import { Athlete, EventDetails, Race } from '../../../interfaces/interfaces';
+import { Athlete, EventDetails, Race, TeamAthleteQualifications } from '../../../interfaces/interfaces';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { LoaderSpinnerComponent } from '../loader-spinner/loader-spinner.component';
@@ -38,12 +38,15 @@ import { SessionService } from '../../../services/session.service';
 export class CompetitionRegistrationComponent implements OnInit {
   event = signal<EventDetails | null>(null);
   myControl = new FormControl('');
+  athleteResControl = new FormControl('');
   chosenRace: Race | null = null;
-  filteredOptions = signal<Athlete[] | null | undefined>(null);
-  athletes = signal<Athlete[] | null>(null);
+  filteredOptions = signal<TeamAthleteQualifications[] | null | undefined>(null);
+  athletes = signal<TeamAthleteQualifications[] | null>(null);
   blockADD:boolean = true;
+  disableAthleteResValue : boolean = true;
+  AthleteResultValue:string | null = null;
   eventId!:string;
-  chosenAthleteToRegister!:Athlete;
+  chosenAthleteToRegister!:TeamAthleteQualifications;
   constructor(
     private competitionService: CompetitionsService,
     private route: ActivatedRoute,
@@ -53,14 +56,14 @@ export class CompetitionRegistrationComponent implements OnInit {
   ) {
      this.eventId = this.route.snapshot.paramMap.get('id') || '';
     
-    teamService
-      .getTeamAthletes()
-      .pipe(
-        map((item: any) => item.map((athleteWrapper: any) => athleteWrapper.athlete))
-      )
-      .subscribe((athletes) => {
-        this.athletes.set(athletes);
-      });
+    // teamService
+    //   .getTeamAthletes()
+    //   .pipe(
+    //     map((item: any) => item.map((athleteWrapper: any) => athleteWrapper.athlete))
+    //   )
+    //   .subscribe((athletes) => {
+    //     this.athletes.set(athletes);
+    //   });
 
     competitionService.getEventDetails(this.eventId).subscribe((event) => {
       this.event.set(event);
@@ -76,17 +79,13 @@ export class CompetitionRegistrationComponent implements OnInit {
       this.filteredOptions.set(filtered);
     });
 
-    this.myControl.valueChanges.subscribe(value => {
-      console.log('Input changed to:', value);
-      // Add filtering logic or other actions
-      this.blockADD = true;
-    });
   }
   
 
   chooseRace(race: Race) {
     this.chosenRace = race;
     this.clearForm()
+    this.getCoachTeamAthleteQualifications(race._id)
   }
 
   clearForm() {
@@ -101,15 +100,22 @@ export class CompetitionRegistrationComponent implements OnInit {
   addAthlete() {
     let coachId = this.sessionService.userId;
     let teamId = this.teamService.chosenTeam._id;
-
-    this.competitionService.addEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
-      console.log(item)
-    })
+    console.log(this.myControl.value, this.athleteResControl.value)
+    // this.competitionService.addEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
+    //   console.log(item)
+    // })
   }
 //registered Athletes list
 //teamId
 //raceId
 
+
+getCoachTeamAthleteQualifications(raceId:string){
+  this.teamService.getCoachTeamAthleteQualifications(raceId).subscribe(item => {
+    console.log(item)
+    this.athletes.set(item)
+  })
+}
 
 
   //fornewMethod
@@ -118,32 +124,40 @@ export class CompetitionRegistrationComponent implements OnInit {
 
   onOptionSelected(event:any){
     this.chosenAthleteToRegister = event.option.value;
-    this.sharedService.getAthleteBestResult(this.chosenRace?._id || '', event.option.value._id || '').subscribe(item => {
-      console.log(item)
-      this.blockADD = false;
-    })
+    console.log(this.chosenAthleteToRegister)
+    this.blockADD = false;
+    if(this.chosenAthleteToRegister.result){
+      this.disableAthleteResValue = true;
+      this.AthleteResultValue = this.chosenAthleteToRegister.result.result.time.seconds
+    } else {
+      this.disableAthleteResValue = false;
+    }
+    // this.sharedService.getAthleteBestResult(this.chosenRace?._id || '', event.option.value._id || '').subscribe(item => {
+    //   console.log(item)
+    //   
+    // })
   }
 
-  deleteEventParticipant(){
-    let coachId = this.sessionService.userId;
-    let teamId = this.teamService.chosenTeam._id;
-    this.competitionService.deleteEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
-      console.log(item)
-    })
-  }
+  // deleteEventParticipant(){
+  //   let coachId = this.sessionService.userId;
+  //   let teamId = this.teamService.chosenTeam._id;
+  //   this.competitionService.deleteEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
+  //     console.log(item)
+  //   })
+  // }
 
-  private _filter(value: string | null): Athlete[] | null {
+  private _filter(value: string | null): TeamAthleteQualifications[] | null {
     const filterValue = (value || '').toLowerCase()
     const result = this.athletes()?.filter(
       (athlete) =>
-        athlete.lastName.toLowerCase().includes(filterValue) ||
-        athlete.firstName.toLowerCase().includes(filterValue)
+        athlete?.member.athlete.lastName.toLowerCase().includes(filterValue) ||
+        athlete?.member.athlete.lastName.toLowerCase().includes(filterValue)
     );
     return result?.length ? result : null;
   }
   
 
-  displayFn(option: Athlete): string {
-    return option ? `${option.lastName} ${option.firstName}` : '';
+  displayFn(option: TeamAthleteQualifications): string {
+    return option ? `${option?.member?.athlete?.lastName} ${option?.member?.athlete?.firstName}` : '';
   }
 }
