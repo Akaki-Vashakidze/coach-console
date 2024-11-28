@@ -16,6 +16,7 @@ import { TeamService } from '../../../services/team.service';
 import { MatButtonModule } from '@angular/material/button';
 import { SharedService } from '../../../services/shared.service';
 import { SessionService } from '../../../services/session.service';
+import { ConvertItimeService } from '../../../services/convert-itime.service';
 
 @Component({
   selector: 'app-competition-registration',
@@ -52,7 +53,8 @@ export class CompetitionRegistrationComponent implements OnInit {
     private route: ActivatedRoute,
     private teamService: TeamService,
     private sharedService:SharedService,
-    private sessionService:SessionService
+    private sessionService:SessionService,
+    private convertItimeService:ConvertItimeService
   ) {
      this.eventId = this.route.snapshot.paramMap.get('id') || '';
     
@@ -101,9 +103,17 @@ export class CompetitionRegistrationComponent implements OnInit {
     let coachId = this.sessionService.userId;
     let teamId = this.teamService.chosenTeam._id;
     console.log(this.myControl.value, this.athleteResControl.value)
-    // this.competitionService.addEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
-    //   console.log(item)
-    // })
+    let time;
+    if(this.chosenAthleteToRegister.result) {
+      time = null;
+    } else {
+      time = this.convertItimeService.convertStringTimeToItime(this.athleteResControl.value || '')
+    }
+    
+    console.log(time)
+    this.competitionService.addEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister.member.athlete._id,this.chosenRace?._id || '',time || null).subscribe(item => {
+      console.log(item)
+    })
   }
 //registered Athletes list
 //teamId

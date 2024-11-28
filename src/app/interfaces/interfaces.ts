@@ -186,7 +186,6 @@ export interface iTime {
   milliseconds:string,
   minutes:string,
   seconds:string,
-  totalMilliseconds:number
 }
 
 export interface EventDetails {
