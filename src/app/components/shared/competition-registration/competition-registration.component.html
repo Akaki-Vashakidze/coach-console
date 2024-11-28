@@ -19,14 +19,14 @@
             <div class="registeredAthletesList">
               <div>1. აკაკი ვაშაკიძე</div>
             </div>
-            <form class="add_athlete_form">
+            <form [formGroup]="registerAthleteForm" class="add_athlete_form">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>athlete</mat-label>
                 <input
                   type="text"
                   placeholder="Pick one"
                   matInput
-                  [formControl]="myControl"
+                  formControlName="athleteInfo"
                   [matAutocomplete]="auto"
                 />
                 <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
@@ -38,8 +38,8 @@
 
               <mat-form-field class="full-width">
                 <mat-label>result</mat-label>
-                <input [disabled]="disableAthleteResValue" 
-                [formControl]="athleteResControl" [value]="AthleteResultValue" matInput type="text" placeholder="01:59.33" />
+                <input
+                formControlName="athleteResult" [value]="AthleteResultValue" matInput type="text" placeholder="01:59.33" />
               </mat-form-field>
 
               <button type="button" (click)="addAthlete()" [disabled]="blockADD" mat-raised-button>Add</button>

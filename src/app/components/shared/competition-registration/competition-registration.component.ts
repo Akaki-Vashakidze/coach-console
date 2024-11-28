@@ -8,7 +8,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { map, Observable, startWith } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -38,15 +38,14 @@ import { ConvertItimeService } from '../../../services/convert-itime.service';
 })
 export class CompetitionRegistrationComponent implements OnInit {
   event = signal<EventDetails | null>(null);
-  myControl = new FormControl('');
   athleteResControl = new FormControl('');
   chosenRace: Race | null = null;
   filteredOptions = signal<TeamAthleteQualifications[] | null | undefined>(null);
   athletes = signal<TeamAthleteQualifications[] | null>(null);
   blockADD:boolean = true;
-  disableAthleteResValue : boolean = true;
   AthleteResultValue:string | null = null;
   eventId!:string;
+  registerAthleteForm!:FormGroup;
   chosenAthleteToRegister!:TeamAthleteQualifications;
   constructor(
     private competitionService: CompetitionsService,
@@ -54,10 +53,15 @@ export class CompetitionRegistrationComponent implements OnInit {
     private teamService: TeamService,
     private sharedService:SharedService,
     private sessionService:SessionService,
-    private convertItimeService:ConvertItimeService
+    private convertItimeService:ConvertItimeService,
+    private fb: FormBuilder,
   ) {
      this.eventId = this.route.snapshot.paramMap.get('id') || '';
-    
+     this.registerAthleteForm = this.fb.group({
+      athleteInfo: ['', [Validators.required]],
+      athleteResult: ['', [Validators.required]],
+    });
+    this.registerAthleteForm.get('athleteResult')?.disable();
     // teamService
     //   .getTeamAthletes()
     //   .pipe(
@@ -73,7 +77,7 @@ export class CompetitionRegistrationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.myControl.valueChanges.pipe(
+    this.registerAthleteForm.get('athleteInfo')?.valueChanges.pipe(
       startWith(''),
       map((value) => (typeof value === 'string' ? value : '')),
       map((value) => this._filter(value))
@@ -81,6 +85,21 @@ export class CompetitionRegistrationComponent implements OnInit {
       this.filteredOptions.set(filtered);
     });
 
+    this.registerAthleteForm.get('athleteResult')?.valueChanges.subscribe(item => {
+      if (item && item.length === 2 && !item.includes(':')) {
+        const updatedValue = `${item}:`;
+        this.registerAthleteForm.get('athleteResult')?.setValue(updatedValue, {
+          emitEvent: false, // Prevent triggering valueChanges again
+        });
+      } 
+      if (item && item.length === 5 && !item.includes('.')) {
+        const updatedValue = `${item}.`;
+        this.registerAthleteForm.get('athleteResult')?.setValue(updatedValue, {
+          emitEvent: false, // Prevent triggering valueChanges again
+        });
+      }
+    })
+    
   }
   
 
@@ -91,7 +110,7 @@ export class CompetitionRegistrationComponent implements OnInit {
   }
 
   clearForm() {
-    this.myControl.reset(); 
+    this.registerAthleteForm.reset(); 
     this.blockADD = true; 
   }
 
@@ -102,10 +121,10 @@ export class CompetitionRegistrationComponent implements OnInit {
   addAthlete() {
     let coachId = this.sessionService.userId;
     let teamId = this.teamService.chosenTeam._id;
-    console.log(this.myControl.value, this.athleteResControl.value)
+    console.log(this.registerAthleteForm.value.athleteInfo, this.athleteResControl.value)
     let time;
     if(this.chosenAthleteToRegister.result) {
-      time = null;
+      time = this.chosenAthleteToRegister.result.result.time;
     } else {
       time = this.convertItimeService.convertStringTimeToItime(this.athleteResControl.value || '')
     }
@@ -137,10 +156,11 @@ getCoachTeamAthleteQualifications(raceId:string){
     console.log(this.chosenAthleteToRegister)
     this.blockADD = false;
     if(this.chosenAthleteToRegister.result){
-      this.disableAthleteResValue = true;
-      this.AthleteResultValue = this.chosenAthleteToRegister.result.result.time.seconds
+      this.registerAthleteForm.get('athleteResult')?.disable();
+      this.AthleteResultValue = this.chosenAthleteToRegister.result.result.time.minutes + ':' + this.chosenAthleteToRegister.result.result.time.seconds + '.' + this.chosenAthleteToRegister.result.result.time.milliseconds
     } else {
-      this.disableAthleteResValue = false;
+      this.AthleteResultValue = null;
+      this.registerAthleteForm.get('athleteResult')?.enable();
     }
     // this.sharedService.getAthleteBestResult(this.chosenRace?._id || '', event.option.value._id || '').subscribe(item => {
     //   console.log(item)
