@@ -39,7 +39,7 @@ export class NewPassRecoveryComponent {
     this.loader = true
     this._signInService.recoverPasswordMandatoryChange(this.newPassForm.value.password).subscribe(item => {
       if(item?.token) {
-        localStorage.setItem('access-token', item.token);
+        localStorage.setItem('access-token-l4', item.token);
         this.loader = false;
           this._router.navigate(['/coach/dashboard'])
       } 
