@@ -13,15 +13,20 @@ export class ConvertItimeService {
   }
 
   convertStringTimeToItime(time:string){
-    let minutes = time.split(':')[0]
-    let seconds = time.split(':')[1].split('.')[0]
-    let milliseconds = time.split(':')[1].split('.')[1]
+    console.log(time)
+    if(time){
+      let minutes = time.split(':')[0]
+      let seconds = time.split(':')[1].split('.')[0]
+      let milliseconds = time.split(':')[1].split('.')[1]
+  
+      return {
+        hours:'',
+        milliseconds,
+        minutes,
+        seconds,
+      }
+    } 
+    return null
 
-    return {
-      hours:'',
-      milliseconds,
-      minutes,
-      seconds,
-    }
   }
 }

@@ -39,10 +39,10 @@
               <mat-form-field class="full-width">
                 <mat-label>result</mat-label>
                 <input
-                formControlName="athleteResult" [value]="AthleteResultValue" matInput type="text" placeholder="01:59.33" />
+                formControlName="athleteResult" maxlength="8" [value]="AthleteResultValue" matInput type="text" placeholder="01:59.33" />
               </mat-form-field>
 
-              <button type="button" (click)="addAthlete()" [disabled]="blockADD" mat-raised-button>Add</button>
+              <button type="button" (click)="addAthlete()" [disabled]="!registerAthleteForm.valid" mat-raised-button>Add</button>
             </form>
           </div>
         </mat-card>

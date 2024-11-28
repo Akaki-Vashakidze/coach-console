@@ -59,7 +59,7 @@ export class CompetitionRegistrationComponent implements OnInit {
      this.eventId = this.route.snapshot.paramMap.get('id') || '';
      this.registerAthleteForm = this.fb.group({
       athleteInfo: ['', [Validators.required]],
-      athleteResult: ['', [Validators.required]],
+      athleteResult: ['', [Validators.required, Validators.minLength(8),Validators.maxLength(8)]],
     });
     this.registerAthleteForm.get('athleteResult')?.disable();
     // teamService
@@ -85,19 +85,22 @@ export class CompetitionRegistrationComponent implements OnInit {
       this.filteredOptions.set(filtered);
     });
 
+    let prevValue:any;
     this.registerAthleteForm.get('athleteResult')?.valueChanges.subscribe(item => {
-      if (item && item.length === 2 && !item.includes(':')) {
+      if (item && item.length === 2 && prevValue.split('')[2] != ':') {
         const updatedValue = `${item}:`;
         this.registerAthleteForm.get('athleteResult')?.setValue(updatedValue, {
-          emitEvent: false, // Prevent triggering valueChanges again
+          emitEvent: false,
         });
       } 
-      if (item && item.length === 5 && !item.includes('.')) {
+      if (item && item.length === 5 && prevValue.split('')[5] != '.') {
         const updatedValue = `${item}.`;
         this.registerAthleteForm.get('athleteResult')?.setValue(updatedValue, {
-          emitEvent: false, // Prevent triggering valueChanges again
+          emitEvent: false,
         });
       }
+      console.log(item)
+      prevValue = item;
     })
     
   }
@@ -121,12 +124,12 @@ export class CompetitionRegistrationComponent implements OnInit {
   addAthlete() {
     let coachId = this.sessionService.userId;
     let teamId = this.teamService.chosenTeam._id;
-    console.log(this.registerAthleteForm.value.athleteInfo, this.athleteResControl.value)
+    console.log(this.registerAthleteForm.value.athleteInfo, this.registerAthleteForm.value)
     let time;
     if(this.chosenAthleteToRegister.result) {
       time = this.chosenAthleteToRegister.result.result.time;
     } else {
-      time = this.convertItimeService.convertStringTimeToItime(this.athleteResControl.value || '')
+      time = this.convertItimeService.convertStringTimeToItime(this.registerAthleteForm.value.athleteResult || '')
     }
     
     console.log(time)
