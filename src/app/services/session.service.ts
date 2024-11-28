@@ -27,6 +27,6 @@ export class SessionService {
   }
 
   deleteLocalData(){
-    localStorage.removeItem('access-token-l4')
+    localStorage.removeItem('access-token-l4-coach')
   }
 }

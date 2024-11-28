@@ -7,7 +7,7 @@ import { environment } from '../../environments/environment.prod';
 export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next: HttpHandlerFn): Observable<HttpEvent<any>> => {
   const tokenizedReq = req.clone({
     setHeaders: {
-      Authorization: 'Bearer ' + localStorage.getItem('access-token-l4')
+      Authorization: 'Bearer ' + localStorage.getItem('access-token-l4-coach')
     }
   });
 
@@ -16,7 +16,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req: HttpRequest<any>, next:
       if (evt instanceof HttpResponse) {
         const sessionToken = evt.headers.get('access-token');
         if (sessionToken) {
-          localStorage.setItem('access-token-l4', sessionToken);
+          localStorage.setItem('access-token-l4-coach', sessionToken);
         }
       }
     })
