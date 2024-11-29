@@ -7,12 +7,13 @@ import { SessionService } from '../../services/session.service';
 import { SignInService } from '../../services/sign-in.service';
 import { Router, RouterModule } from '@angular/router';
 import { TeamService } from '../../services/team.service';
+import { ShortenPipe } from '../../pipes/shorten.pipe';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule],
+  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule, ShortenPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

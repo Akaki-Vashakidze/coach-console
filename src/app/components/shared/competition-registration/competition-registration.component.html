@@ -1,7 +1,15 @@
 
 <div class="regConainerFull">
   <mat-card>
-    <app-loader-spinner *ngIf="!event()" color="black" height="500px"></app-loader-spinner>
+    <app-loader-spinner *ngIf="!event()" color="black" height="200px"></app-loader-spinner>
+    <div *ngIf="event()" class="eventTitle" style="padding: 10px; border-bottom: 1px solid var(--light-blue1);">
+      <div class="title" style="text-align: center; font-weight: 600; font-size: 18px;">{{event()?.event.title}}</div>
+      <div class="info">
+        <app-label label="მისამართი" [value]="event()?.event.address"></app-label>
+        <app-label label="რეგისტრაციის დაწყება" [value]="event()?.event.startDate | date: 'dd-MM-yyy'"></app-label>
+        <app-label label="რეგისტრაციის დამთავრება" [value]="event()?.event.endDate | date: 'dd-MM-yyy'"></app-label>
+      </div>
+    </div>
     <mat-tab-group class="tabsCont" (selectedTabChange)="onTabChange($event)">
       <mat-tab *ngFor="let partition of event()?.partitions" [label]="partition.title">
         <div class="regComponent">
@@ -68,12 +76,16 @@
   </mat-card>
   
   <mat-card class="allRegisteredAthletes">
-    <div class="allRegisteredAthletes_header">
+    <div *ngIf="AllRegisterAthletes().length > 0" class="allRegisteredAthletes_header">
       Competition Registered Athletes
+    </div>
+    <div *ngIf="AllRegisterAthletes().length == 0" class="allRegisteredAthletes_header">
+      No athlete is registered
     </div>
     <div style="width: 100%;">
 
-      <mat-accordion>
+      <app-loader-spinner *ngIf="isLoadingAllRegAthletes" color="black" height="500px"></app-loader-spinner>
+      <mat-accordion *ngIf="!isLoadingAllRegAthletes" >
         <mat-expansion-panel style="margin: 3px;" *ngFor="let athlete of AllRegisterAthletes()">
           <mat-expansion-panel-header>
             <div class="header-content">

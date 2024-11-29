@@ -3,7 +3,7 @@
     <div class="info">
         <div *ngIf="needUserInfo" class="username padding5">{{ userData ? userData.user.lastName + ' ' + userData.user.firstName : ''}}</div>
         <div *ngIf="userData && needUserInfo && teams().length > 0" class="teamsDropdownMenu padding5 gapLane" [matMenuTriggerFor]="teamsMenu">
-            <div>{{chosenTeam()?.title}}</div>
+            <div>{{chosenTeam()?.title | shorten:20}}</div>
             <mat-icon>keyboard_arrow_down</mat-icon>
         </div>
         <div class=" padding5 gapLane" *ngIf="teams().length == 0">No team</div>

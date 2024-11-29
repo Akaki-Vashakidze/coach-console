@@ -18,6 +18,7 @@ import { SharedService } from '../../../services/shared.service';
 import { SessionService } from '../../../services/session.service';
 import { ConvertItimeService } from '../../../services/convert-itime.service';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { LabelComponent } from '../label/label.component';
 
 @Component({
   selector: 'app-competition-registration',
@@ -33,7 +34,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatExpansionModule
+    MatExpansionModule,
+    LabelComponent
   ],
   templateUrl: './competition-registration.component.html',
   styleUrls: ['./competition-registration.component.scss'],
@@ -136,6 +138,7 @@ export class CompetitionRegistrationComponent implements OnInit {
     this.competitionService.addEventPartiipant(this.coachId,this.teamId,this.eventId,this.chosenAthleteToRegister.member.athlete._id,this.chosenRace?._id || '',time || null).subscribe(item => {
       if(item.athlete) {
         this.getRegisteredAthletes()
+        this.getAllRegisteredAthletes()
       }
     })
   }
