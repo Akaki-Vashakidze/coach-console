@@ -99,7 +99,6 @@ export class CompetitionRegistrationComponent implements OnInit {
           emitEvent: false,
         });
       }
-      console.log(item)
       prevValue = item;
     })
     
@@ -144,7 +143,6 @@ export class CompetitionRegistrationComponent implements OnInit {
   getRegisteredAthletes(){
     this.isLoading = true;
     this.competitionService.getRegisteredAthletes(this.coachId,this.teamId,this.eventId,this.chosenRace?._id || '').subscribe(item => {
-      console.log(item)
       this.isLoading = false;
       this.raceRegisterAthletes.set(item)
     })
@@ -152,10 +150,8 @@ export class CompetitionRegistrationComponent implements OnInit {
 
   getAllRegisteredAthletes(){
     this.isLoadingAllRegAthletes = true;
-    this.competitionService.getRegisteredAthletes(this.coachId,this.teamId,this.eventId,null).subscribe(item => {
-      console.log(item)
+    this.competitionService.getAllRegisteredAthletes(this.coachId,this.teamId,this.eventId,null).subscribe(item => {
       this.isLoadingAllRegAthletes = false;
-     console.log(item)
       this.AllRegisterAthletes.set(item)
     })
   }
@@ -172,7 +168,6 @@ deleteRegisteredAthlete(athlete:Athlete){
 }
   onOptionSelected(event:any){
     this.chosenAthleteToRegister = event.option.value;
-    console.log(this.chosenAthleteToRegister)
     this.blockADD = false;
     if(this.chosenAthleteToRegister.result){
       this.registerAthleteForm.get('athleteResult')?.disable();
@@ -181,19 +176,8 @@ deleteRegisteredAthlete(athlete:Athlete){
       this.AthleteResultValue = null;
       this.registerAthleteForm.get('athleteResult')?.enable();
     }
-    // this.sharedService.getAthleteBestResult(this.chosenRace?._id || '', event.option.value._id || '').subscribe(item => {
-    //   console.log(item)
-    //   
-    // })
   }
 
-  // deleteEventParticipant(){
-  //   let coachId = this.sessionService.userId;
-  //   let teamId = this.teamService.chosenTeam._id;
-  //   this.competitionService.deleteEventPartiipant(coachId,teamId,this.eventId,this.chosenAthleteToRegister._id,this.chosenRace?._id || '').subscribe(item => {
-  //     console.log(item)
-  //   })
-  // }
 
   private _filter(value: string | null): TeamAthleteQualifications[] | null {
     const filterValue = (value || '').toLowerCase()

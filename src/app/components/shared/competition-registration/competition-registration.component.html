@@ -85,8 +85,8 @@
             </div>
           </mat-expansion-panel-header>
           <div class="panel-content">
-            <div *ngFor="let race of athlete?.races">
-              <div>{{race.distance + ' ' + race.style}}</div>
+            <div *ngFor="let race of athlete?.races, let i = index">
+              <div>{{(i + 1) + '. ' +race.distance + ' ' + race.style + ' '}}<span style="color: rgb(163, 162, 162);">{{race.gender}}</span></div>
             </div>
           
           </div>
