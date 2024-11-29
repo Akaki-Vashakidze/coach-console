@@ -8,12 +8,14 @@ import { SignInService } from '../../services/sign-in.service';
 import { Router, RouterModule } from '@angular/router';
 import { TeamService } from '../../services/team.service';
 import { ShortenPipe } from '../../pipes/shorten.pipe';
+import { I18nService } from '../../services/i18n.service';
+import { MobileHeaderComponent } from '../shared/mobileHeader/mobileHeader.component';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule, ShortenPipe],
+  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule, ShortenPipe, MobileHeaderComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
@@ -23,7 +25,11 @@ export class HeaderComponent implements OnInit{
  userData!:SessionData;
  teams = signal<Team[]>([{description:'',title:'',_id:''}])
  chosenTeam = signal<Team | null>(null)
- constructor(private sessionService:SessionService,private _router:Router, private teamService:TeamService ,private signInService:SignInService ){
+
+ public language : string = 'English'
+ public dropdownOpen : boolean = false;
+ menuDropdownOpen:boolean = false;
+ constructor(private i18nService:I18nService,private sessionService:SessionService,private _router:Router, private teamService:TeamService ,private signInService:SignInService ){
   this.userData = sessionService.getSessionDataInfo();
  }
 
@@ -37,6 +43,10 @@ export class HeaderComponent implements OnInit{
     })
   }
  }
+
+ toggleDropdown() {
+  this.dropdownOpen = !this.dropdownOpen;
+}
 
  onMenuItemClick( action: string) {
   switch (action) {
@@ -62,5 +72,12 @@ logout(){
 teamSwitch(team:Team){
   this.teamService.setChosenTeam(team)
   this.chosenTeam.set(team)
+}
+
+switchLanguage(lang: string) {
+  this.dropdownOpen = false;
+  lang == 'en' ? this.language = 'English' : this.language = 'ქართული'
+  this.i18nService.changeCurrentLanguage(lang)
+  this.menuDropdownOpen = false;
 }
 }
