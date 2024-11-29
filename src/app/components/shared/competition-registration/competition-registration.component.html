@@ -76,10 +76,10 @@
   </mat-card>
   
   <mat-card class="allRegisteredAthletes">
-    <div *ngIf="AllRegisterAthletes().length > 0" class="allRegisteredAthletes_header">
+    <div *ngIf="AllRegisterAthletes()?.length > 0" class="allRegisteredAthletes_header">
       Competition Registered Athletes
     </div>
-    <div *ngIf="AllRegisterAthletes().length == 0" class="allRegisteredAthletes_header">
+    <div *ngIf="AllRegisterAthletes()?.length == 0" class="allRegisteredAthletes_header">
       No athlete is registered
     </div>
     <div style="width: 100%;">
