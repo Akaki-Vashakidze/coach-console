@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedService } from '../../../services/shared.service';
 import { SessionService } from '../../../services/session.service';
 import { ConvertItimeService } from '../../../services/convert-itime.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-competition-registration',
@@ -32,6 +33,7 @@ import { ConvertItimeService } from '../../../services/convert-itime.service';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    MatExpansionModule
   ],
   templateUrl: './competition-registration.component.html',
   styleUrls: ['./competition-registration.component.scss'],
@@ -47,10 +49,12 @@ export class CompetitionRegistrationComponent implements OnInit {
   eventId!:string;
   registerAthleteForm!:FormGroup;
   raceRegisterAthletes = signal<any>(null)
+  AllRegisterAthletes = signal<any>(null)
   chosenAthleteToRegister!:TeamAthleteQualifications;
   coachId!:string;
   teamId!:string;
   isLoading!:boolean;
+  isLoadingAllRegAthletes!:boolean;
 
   constructor(
     private competitionService: CompetitionsService,
@@ -101,7 +105,8 @@ export class CompetitionRegistrationComponent implements OnInit {
     
     this.coachId = this.sessionService.userId;
      this.teamId = this.teamService.chosenTeam._id;
-    this.getRegisteredAthletes()
+
+    this.getAllRegisteredAthletes()
   }
   
 
@@ -142,6 +147,16 @@ export class CompetitionRegistrationComponent implements OnInit {
       console.log(item)
       this.isLoading = false;
       this.raceRegisterAthletes.set(item)
+    })
+  }
+
+  getAllRegisteredAthletes(){
+    this.isLoadingAllRegAthletes = true;
+    this.competitionService.getRegisteredAthletes(this.coachId,this.teamId,this.eventId,null).subscribe(item => {
+      console.log(item)
+      this.isLoadingAllRegAthletes = false;
+     console.log(item)
+      this.AllRegisterAthletes.set(item)
     })
   }
 

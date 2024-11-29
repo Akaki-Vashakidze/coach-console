@@ -71,20 +71,40 @@
 .add_athlete_form {
     display: flex;
     align-items: center;
-    gap: 8px; /* Space between input and button */
+    gap: 8px; 
   }
   
   .add_athlete_form mat-form-field {
-    flex: 1; /* Ensures the input grows to take available space */
+    flex: 1; 
     margin: 0;
   }
   
   .add_athlete_form button {
-    height: 56px; /* Match the default height of the mat-form-field */
+    height: 56px;
     line-height: 56px;
-    min-width: 90px; /* Optional: Adjust button width as needed */
+    min-width: 90px; 
     font-size: 16px;
-    padding: 0 16px; /* Ensure padding matches Material Design guidelines */
+    padding: 0 8px; 
+  }
+
+  .addAthleteCont {
+    padding: 10px;
+  }
+
+  .regConainerFull {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .allRegisteredAthletes {
+    padding: 10px!important;
+    display: flex;
+    align-items: center;
+  }
+
+  .allRegisteredAthletes_header {
+    padding: 10px;
   }
 
   @media (max-width:740px){
