@@ -47,6 +47,19 @@
     padding: 15px 0px;
 }
 
+.athleteInfoRegHeader {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 5px;
+    border-bottom: 1px solid rgb(176, 174, 174);
+}
+
+.athleteInfoReg {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    padding: 3px;
+}
+
 .add_athlete_form {
     padding: 15px 0px;
 }

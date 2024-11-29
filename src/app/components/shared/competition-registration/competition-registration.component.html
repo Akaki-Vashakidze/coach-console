@@ -3,10 +3,7 @@
   <mat-tab *ngFor="let partition of event()?.partitions" [label]="partition.title">
     <div class="regComponent">
       <div class="races">
-        <mat-card 
-          (click)="chooseRace(race)" 
-          [ngClass]="chosenRace?._id == race._id ? 'bkOn' : ''" 
-          class="race" 
+        <mat-card (click)="chooseRace(race)" [ngClass]="chosenRace?._id == race._id ? 'bkOn' : ''" class="race"
           *ngFor="let race of partition.races">
           {{ race.distance + ' '}} {{ race.style }} {{race.gender}}
         </mat-card>
@@ -16,20 +13,28 @@
           <div class="addPartitcipantsCont" *ngIf="!chosenRace">Please choose a race</div>
           <div class="addPartitcipantsCont" *ngIf="chosenRace">
             <div style="font-weight: 600;">{{ chosenRace.title }}</div>
-            <div class="registeredAthletesList">
-              <div *ngFor="let athlete of raceRegisterAthletes()">{{athlete.athlete.lastName + ' ' + athlete.athlete.firstName}} {{ ' - ' + athlete.qualificationTime.minutes + ':' + athlete.qualificationTime.seconds + '.' + athlete.qualificationTime.milliseconds}}</div>
+            <app-loader-spinner *ngIf="isLoading" color="black" height="200px"></app-loader-spinner>
+            <div *ngIf="!isLoading" class="registeredAthletesList">
+              <div *ngIf="raceRegisterAthletes().length == 0">No athlete</div>
+              <div *ngIf="raceRegisterAthletes().length > 0" class="athleteInfoRegHeader">
+                <div>name</div>
+                <div>result</div>
+                <div>action</div>
+              </div>
+              <div class="athleteInfoReg" *ngFor="let athlete of raceRegisterAthletes(), let i =index">
+                <div>{{i + 1 + '. '}}{{athlete.athlete.lastName + ' ' + athlete.athlete.firstName}}</div>
+                <div>{{ athlete.qualificationTime.minutes + ':' + athlete.qualificationTime.seconds + '.' +
+                  athlete.qualificationTime.milliseconds}}</div>
+                <div><button (click)="deleteRegisteredAthlete(athlete)" mat-raised-button>delete</button></div>
+              </div>
             </div>
             <form [formGroup]="registerAthleteForm" class="add_athlete_form">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>athlete</mat-label>
-                <input
-                  type="text"
-                  placeholder="Pick one"
-                  matInput
-                  formControlName="athleteInfo"
-                  [matAutocomplete]="auto"
-                />
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="onOptionSelected($event)">
+                <input type="text" placeholder="Pick one" matInput formControlName="athleteInfo"
+                  [matAutocomplete]="auto" />
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn"
+                  (optionSelected)="onOptionSelected($event)">
                   <mat-option *ngFor="let option of filteredOptions()" [value]="option">
                     {{ option?.member?.athlete?.lastName + ' ' + option?.member?.athlete?.firstName }}
                   </mat-option>
@@ -38,11 +43,12 @@
 
               <mat-form-field class="full-width">
                 <mat-label>result</mat-label>
-                <input
-                formControlName="athleteResult" maxlength="8" [value]="AthleteResultValue" matInput type="text" placeholder="01:59.33" />
+                <input formControlName="athleteResult" maxlength="8" [value]="AthleteResultValue" matInput type="text"
+                  placeholder="01:59.33" />
               </mat-form-field>
 
-              <button type="button" (click)="addAthlete()" [disabled]="!registerAthleteForm.valid" mat-raised-button>Add</button>
+              <button type="button" (click)="addAthlete()" [disabled]="!registerAthleteForm.valid"
+                mat-raised-button>Add</button>
             </form>
           </div>
         </mat-card>

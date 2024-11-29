@@ -50,6 +50,7 @@ export class CompetitionRegistrationComponent implements OnInit {
   chosenAthleteToRegister!:TeamAthleteQualifications;
   coachId!:string;
   teamId!:string;
+  isLoading!:boolean;
 
   constructor(
     private competitionService: CompetitionsService,
@@ -105,8 +106,8 @@ export class CompetitionRegistrationComponent implements OnInit {
   
 
   chooseRace(race: Race) {
-    this.getRegisteredAthletes()
     this.chosenRace = race;
+    this.getRegisteredAthletes()
     this.clearForm()
     this.getCoachTeamAthleteQualifications(race._id)
   }
@@ -136,8 +137,10 @@ export class CompetitionRegistrationComponent implements OnInit {
   }
 
   getRegisteredAthletes(){
+    this.isLoading = true;
     this.competitionService.getRegisteredAthletes(this.coachId,this.teamId,this.eventId,this.chosenRace?._id || '').subscribe(item => {
       console.log(item)
+      this.isLoading = false;
       this.raceRegisterAthletes.set(item)
     })
   }
@@ -147,6 +150,10 @@ getCoachTeamAthleteQualifications(raceId:string){
     this.athletes.set(item)
     this.filteredOptions.set(item);
   })
+}
+
+deleteRegisteredAthlete(athlete:Athlete){
+  console.log(athlete)
 }
   onOptionSelected(event:any){
     this.chosenAthleteToRegister = event.option.value;
