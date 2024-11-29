@@ -50,3 +50,7 @@ export enum PoolLength {
   LONG = 'LONG',
   OPEN_WATER = 'OPEN_WATER'
 }
+export enum ConfirmationText {
+  ENG = 'I agree',
+  GEO = 'თანახმა ვარ',
+}

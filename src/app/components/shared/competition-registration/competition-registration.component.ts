@@ -9,7 +9,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith, switchMap } from 'rxjs';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { TeamService } from '../../../services/team.service';
@@ -19,6 +19,8 @@ import { SessionService } from '../../../services/session.service';
 import { ConvertItimeService } from '../../../services/convert-itime.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { LabelComponent } from '../label/label.component';
+import { ConfirmDialogModel, ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-competition-registration',
@@ -35,7 +37,7 @@ import { LabelComponent } from '../label/label.component';
     MatInputModule,
     MatButtonModule,
     MatExpansionModule,
-    LabelComponent
+    LabelComponent,
   ],
   templateUrl: './competition-registration.component.html',
   styleUrls: ['./competition-registration.component.scss'],
@@ -59,6 +61,7 @@ export class CompetitionRegistrationComponent implements OnInit {
   isLoadingAllRegAthletes!:boolean;
 
   constructor(
+    private _dialog: MatDialog,
     private competitionService: CompetitionsService,
     private route: ActivatedRoute,
     private teamService: TeamService,
@@ -168,6 +171,28 @@ getCoachTeamAthleteQualifications(raceId:string){
 
 deleteRegisteredAthlete(athlete:Athlete){
   console.log(athlete)
+  const dialogData = new ConfirmDialogModel('do_you_want_delete', 'delete');
+
+  const dialogRef = this._dialog.open(ConfirmDialogComponent, {
+    maxWidth: '400px',
+    data: dialogData,
+    width: '100%',
+  });
+
+  dialogRef
+    .afterClosed()
+    .pipe(
+      filter((isConfirm) => isConfirm),
+      switchMap(() => this.competitionService.deleteEventPartiipant(this.coachId,this.teamId,this.eventId,athlete._id ))
+    )
+    .subscribe((item) => {
+      console.log(item)
+      if(item.reload){
+        this.getRegisteredAthletes()
+        this.getAllRegisteredAthletes()
+      } 
+    });
+
 }
   onOptionSelected(event:any){
     this.chosenAthleteToRegister = event.option.value;

@@ -33,7 +33,7 @@ export class CompetitionsService {
     return this._http.get<any>(`/consoleApi/coach/${coachId}/teams/${teamId}/events/${eventId}/allParticipants${raceId ? '?raceId=' + raceId :''}`)
   }
 
-  deleteEventPartiipant(coachId:string,teamId:string,eventId:string, participantId:string,raceId:string){
+  deleteEventPartiipant(coachId:string,teamId:string,eventId:string, participantId:string){
     return this._http.delete<any>(`/consoleApi/coach/${coachId}/teams/${teamId}/events/${eventId}/participants/${participantId}`)
   }
 }
