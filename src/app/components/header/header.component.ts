@@ -10,12 +10,13 @@ import { TeamService } from '../../services/team.service';
 import { ShortenPipe } from '../../pipes/shorten.pipe';
 import { I18nService } from '../../services/i18n.service';
 import { MobileHeaderComponent } from '../shared/mobileHeader/mobileHeader.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule, ShortenPipe, MobileHeaderComponent],
+  imports: [CommonModule, MatMenuModule, MatIconModule, RouterModule, ShortenPipe, MobileHeaderComponent,TranslateModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

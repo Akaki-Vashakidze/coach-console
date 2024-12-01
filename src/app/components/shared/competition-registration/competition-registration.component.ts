@@ -169,7 +169,7 @@ getCoachTeamAthleteQualifications(raceId:string){
   })
 }
 
-deleteRegisteredAthlete(athlete:Athlete){
+deleteRegisteredAthlete(athlete:any){
   console.log(athlete)
   const dialogData = new ConfirmDialogModel('do_you_want_delete', 'delete');
 
@@ -183,7 +183,7 @@ deleteRegisteredAthlete(athlete:Athlete){
     .afterClosed()
     .pipe(
       filter((isConfirm) => isConfirm),
-      switchMap(() => this.competitionService.deleteEventPartiipant(this.coachId,this.teamId,this.eventId,athlete._id ))
+      switchMap(() => this.competitionService.deleteEventPartiipant(this.coachId,this.teamId,this.eventId,athlete.athlete._id,this.chosenRace?._id || '' ))
     )
     .subscribe((item) => {
       console.log(item)
